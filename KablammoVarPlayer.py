@@ -223,7 +223,7 @@ class OTVarGlyphAnimator( object ):
       minWt = min(weights) or 0
       maxWt = max(weights) or 0
 
-      print(minWt, sliderPos, maxWt, minWt)
+      # print(minWt, sliderPos, maxWt, minWt)
       sliderWt = minWt + sliderPos * (maxWt - minWt)
       
       # apply to preview instance and redraw
