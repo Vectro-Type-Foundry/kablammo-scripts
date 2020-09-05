@@ -38,12 +38,12 @@ class KablammoDashGrid(ReporterPlugin):
 
 		for i in range(int(self.numRows)):
 			y = i * rowHeight + self.marginBottom
-			c1 = self.offColor
-			c2 = self.onColor			
+			c1 = self.onColor
+			c2 = self.offColor
 
 			if (i % 2 == 0):
-				c1 = self.onColor
-				c2 = self.offColor
+				c1 = self.offColor
+				c2 = self.onColor
 
 			self.drawRow(0, y, self.rowWidth, rowHeight, c1)
 			self.drawRow(layer.width - self.rowWidth, y, self.rowWidth, rowHeight, c2)
