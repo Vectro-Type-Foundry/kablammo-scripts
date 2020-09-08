@@ -15,7 +15,6 @@ from __future__ import division, print_function, unicode_literals
 import objc
 from GlyphsApp import *
 from GlyphsApp.plugins import *
-from vanilla import *
 
 class KablammoDashGrid(ReporterPlugin):
 
