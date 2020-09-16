@@ -14,8 +14,9 @@ l = Font.selectedLayers[0]
 g = l.parent
 
 for layer in g.layers:
-	for p in l.paths:
-		if p.selected:
-			layer.paths.append(p.copy())
+	if layer != l:
+		for p in l.paths:
+			if p.selected:
+				layer.paths.append(p.copy())
 
 Glyphs.redraw()
