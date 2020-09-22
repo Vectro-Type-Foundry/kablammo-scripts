@@ -1,7 +1,7 @@
-#MenuTitle: Delete selection from other masters
+#MenuTitle: Delete selection in all masters
 # -*- coding: utf-8 -*-
 __doc__="""
-Delete selected paths from all other masters.
+Delete selected paths in all masters.
 """
 
 import GlyphsApp
@@ -24,7 +24,7 @@ def deleteIndexesInLayer(indexes, layer):
 
 def main():
   selectedIndexes = getSelectedContourIndexes()
-  
+
   for masterId in masterIds:
     deleteIndexesInLayer(selectedIndexes, glyph.layers[masterId])
 
