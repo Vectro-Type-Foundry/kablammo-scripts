@@ -1,4 +1,4 @@
-#MenuTitle: KablammoPalette
+#MenuTitle: KablammoTools
 # -*- coding: utf-8 -*-
 __doc__="""
 Brings up window with easy access to all scripts
@@ -14,7 +14,7 @@ from CopySelectionToOtherMasters import *
 from DeleteSelectionInAllMasters import *
 from SynchronizeNodeSelection import *
 
-class KablammoPalette(object):
+class KablammoTools(object):
 
   def __init__(self):
     self.w = Window((200, 310), "Kablammo Palette", minSize=(100, 100))
@@ -66,4 +66,4 @@ class KablammoPalette(object):
   def test(self, v):
     DuplexWarnings()
 
-KablammoPalette()
+KablammoTools()
