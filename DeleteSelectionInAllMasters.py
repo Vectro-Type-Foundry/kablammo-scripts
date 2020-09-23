@@ -1,34 +1,38 @@
-#MenuTitle: Delete selection in all masters
 # -*- coding: utf-8 -*-
 __doc__="""
 Delete selected paths in all masters.
 """
 
-import GlyphsApp
+from GlyphsApp import *
 
-currentLayer = Font.selectedLayers[0]
-glyph = currentLayer.parent
-masterIds = map(lambda m: m.id, Font.masters) 
+class DeleteSelectionInAllMasters(object):
 
-def getSelectedContourIndexes():
-  indexes = []
-  for i in range(len(currentLayer.paths)):
-    if currentLayer.paths[i].selected:
-      indexes.append(i)
+  def __init__(self, sender):
+    self.currentLayer = Glyphs.font.selectedLayers[0]
+    self.glyph = self.currentLayer.parent
+    self.masterIds = map(lambda m: m.id, Glyphs.font.masters) 
 
-  return sorted(indexes, reverse=True)
+    self.run()
 
-def deleteIndexesInLayer(indexes, layer):
-  for i in indexes:
-    del(layer.paths[i])
+  def getSelectedContourIndexes(self):
+    indexes = []
+    for i in range(len(self.currentLayer.paths)):
+      if self.currentLayer.paths[i].selected:
+        indexes.append(i)
 
-def main():
-  selectedIndexes = getSelectedContourIndexes()
+    return sorted(indexes, reverse=True)
 
-  for masterId in masterIds:
-    deleteIndexesInLayer(selectedIndexes, glyph.layers[masterId])
+  def deleteIndexesInLayer(self, indexes, layer):
+    for i in indexes:
+      del(layer.paths[i])
+
+  def run(self):
+    selectedIndexes = self.getSelectedContourIndexes()
+
+    for masterId in self.masterIds:
+      self.deleteIndexesInLayer(selectedIndexes, self.glyph.layers[masterId])
+
+    Glyphs.redraw()
 
 
-main()
-
-Glyphs.redraw()
+  
