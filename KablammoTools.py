@@ -13,11 +13,12 @@ from UseLayerForAllMasters import *
 from CopySelectionToOtherMasters import * 
 from DeleteSelectionInAllMasters import *
 from SynchronizeNodeSelection import *
+from AddPointsAtAngle import *
 
 class KablammoTools(object):
 
   def __init__(self):
-    self.w = Window((200, 310), "Kablammo Palette", minSize=(100, 100))
+    self.w = Window((200, 360), "Kablammo Palette", minSize=(100, 100))
     self.w.g1 = Group((10, 10, -10, -10))
 
     bHeight = 27
@@ -58,10 +59,25 @@ class KablammoTools(object):
     
     y+=margin
 
+    self.addPointsAtAngleAngle = 45
+
+    self.w.g1.addPointsAtAngleAngleInput = EditText((0, y, 40, bHeight), text=self.addPointsAtAngleAngle, callback=self.addPointsAtAngleAngleCallback)
+
+    self.w.g1.addPointsAtAngle = SquareButton((50, y, 0, bHeight), "Add Points at Angle", sizeStyle=bSize, callback=self.addPointsAtAngleCallback)
     
+    y+=margin
 
 
     self.w.open()
+
+  def addPointsAtAngleAngleCallback(self, sender):
+    try:
+      self.addPointsAtAngleAngle = int(sender.get())
+    except:
+      print('not a valid value for angle')
+
+  def addPointsAtAngleCallback(self, sender):
+    AddPointsAtAngle(self.addPointsAtAngleAngle)
 
   def test(self, v):
     DuplexWarnings()
