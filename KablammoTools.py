@@ -3,7 +3,7 @@
 __doc__="""
 Brings up window with easy access to all scripts
 """
-
+import sys; sys.dont_write_bytecode = True
 from vanilla import *
 from CollapseHandles import *
 from CollapseShape import *

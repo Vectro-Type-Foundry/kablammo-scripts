@@ -7,7 +7,6 @@ Adds points at specific angle
 
 from GlyphsApp import *
 from collections import OrderedDict
-import sys; sys.dont_write_bytecode = True
 
 class AddPointsAtAngle(object):
 
