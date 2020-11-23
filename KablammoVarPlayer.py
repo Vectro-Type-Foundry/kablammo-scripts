@@ -1,14 +1,10 @@
 #MenuTitle: Variable Animator (Kablammo)
-
 # -*- coding: utf-8 -*-
-from __future__ import division, print_function, unicode_literals
 __doc__="""
 Plays a glyph in Preview.
 """
-
 import vanilla, threading, time, os
-from AppKit import NSTimer
-
+import objc
 
 # Modified version of Rainer's OT Var Player, to allow for multiple axes, custom keyframes, and multiple selectible animations to choose from.
 
@@ -39,19 +35,18 @@ animation1 = list([
 ])
 
 # multiple animations can be added here, which will show up in dropdown
-animationOptions = list([
+animationOptions = [
   {
     "name": "movement",
     "animation": animation1
   }
-])
-
+]
 
 def saveFileInLocation( content="blabla", fileName="test.txt", filePath="~/Desktop" ):
   saveFileLocation = "%s/%s" % (filePath,fileName)
   saveFileLocation = saveFileLocation.replace( "//", "/" )
   f = open( saveFileLocation, 'w' )
-  print("Exporting to:", f.name)
+  print "Exporting to:", f.name
   f.write( content )
   f.close()
   return True
@@ -63,6 +58,7 @@ class OTVarGlyphAnimator( object ):
     windowHeight = 90
     windowWidthResize  = 700 # user can resize width by this value
     windowHeightResize = 0   # user can resize height by this value
+
     self.w = vanilla.FloatingWindow(
       ( windowWidth, windowHeight ), # default window size
       "Kablammo Animation Player", # window title
@@ -73,18 +69,17 @@ class OTVarGlyphAnimator( object ):
     
     # UI elements:
     self.w.slider = vanilla.Slider( (15,12,-15,15), tickMarkCount=None, callback=self.redrawPreview, continuous=True, sizeStyle="regular", minValue=0, maxValue=100 )
-    self.w.slower = vanilla.Button((15, -20-15, 47, -15), u"🚶", sizeStyle='regular', callback=self.slower )
+    self.w.slower = vanilla.Button((15, -20-15, 32, -15), u"🚶", sizeStyle='regular', callback=self.slower )
     self.w.slower.getNSButton().setToolTip_("Slower")
-    self.w.faster = vanilla.Button((65, -20-15, 47, -15), u"🏃", sizeStyle='regular', callback=self.faster )
+    self.w.faster = vanilla.Button((50, -20-15, 32, -15), u"🏃", sizeStyle='regular', callback=self.faster )
     self.w.faster.getNSButton().setToolTip_("Faster")
-    self.w.backAndForth = vanilla.CheckBox( (125, -20-15, 50, -15), u"⇋", value=False, callback=self.SavePreferences, sizeStyle='small' )
+    self.w.backAndForth = vanilla.CheckBox( (90, -20-15, 50, -15), u"⇋", value=False, callback=self.SavePreferences, sizeStyle='small' )
     
-
-    self.w.animationOption = vanilla.ComboBox((125,-35, 120,-15), list(map(lambda x: x["name"], animationOptions)),
+    
+    self.w.animationOption = vanilla.ComboBox((125,-35, 120,-15), map(lambda x: x["name"], animationOptions),
         callback=self.animationOptionSelect)
     self.w.animationOption.set("movement")
 
-    
     # web button:
     # self.w.buildWeb = vanilla.Button((-140,-35, -100,-15), u"🌍", sizeStyle='regular', callback=self.buildWeb )
     
@@ -95,21 +90,16 @@ class OTVarGlyphAnimator( object ):
     
     # Load Settings:
     if not self.LoadPreferences():
-      print("Note: 'OTVar Glyph Animator' could not load preferences. Will resort to defaults")
+      print "Note: 'OTVar Glyph Animator' could not load preferences. Will resort to defaults"
     
     self.direction = 1
     self.font = Glyphs.font
-    self.originalWeightValue = None
+    self.originalAxesValue = None
     self.isPlaying = False
     if self.font.instances:
-      try:
-        # GLYPHS 3
-        self.originalWeightValue = self.font.instances[0].axes[0]
-      except:
-        # GLYPHS 2
-        self.originalWeightValue = self.font.instances[0].weightValue
-      
+      self.originalAxesValue = self.previewInstance().axes
     self.w.bind("close",self.restoreFont)
+
     
     # open and initialize the preview area at the bottom
     self.redrawPreview(None)
@@ -126,10 +116,10 @@ class OTVarGlyphAnimator( object ):
     except Exception as e:
       Glyphs.clearLog()
       Glyphs.showMacroWindow()
-      print(e)
-      print()
+      print e
+      print
       import traceback
-      print(traceback.format_exc())
+      print traceback.format_exc()
       return False
     
   def SavePreferences( self, sender ):
@@ -163,19 +153,13 @@ class OTVarGlyphAnimator( object ):
       self.font.currentTab.previewHeight = 200
     if not self.font.instances:
       newInstance = GSInstance()
-      newInstance.name = "Preview Instance"
+      newInstance.name = "Preview"
       self.font.instances.append(newInstance)
-    self.font.currentTab.previewInstances = self.font.instances[0]
+    self.font.currentTab.previewInstances = self.previewInstance()
   
   def restoreFont(self, sender):
-    if not self.originalWeightValue is None:
-      try:
-        # GLYPHS 3
-        self.font.instances[0].axes[0] = self.originalWeightValue
-      except:
-        # GLYPHS 2
-        self.font.instances[0].weightValue = self.originalWeightValue
-      
+    if not self.originalAxesValue is None:
+      self.previewInstance().axes = self.originalAxesValue
     else:
       self.font.instances = []
       
@@ -185,8 +169,7 @@ class OTVarGlyphAnimator( object ):
     # reset slider and redraw the preview area:
     Glyphs.defaults["com.mekkablue.OTVarGlyphAnimator.slider"] = 0
     Glyphs.redraw()
-  
-  # start travis
+
   def previewInstance(self):
     return next(i for i in self.font.instances if i.name == 'Preview')
 
@@ -229,49 +212,32 @@ class OTVarGlyphAnimator( object ):
       axisIndex = self.getAxisIndex(axisVal["tag"])
       self.previewInstance().axes[axisIndex] = axisVal["val"]
 
-  # end travis
-
   def redrawPreview( self, sender ):
     try:
       self.setupWindow()
       
-      # get Slider position
       sliderPos = self.w.slider.get() / 100.0
-      try:
-        # GLYPHS 3
-        weights = [m.axes[0] for m in self.font.masters]
-      except:
-        # GLYPHS 2
-        weights = [m.weightValue for m in self.font.masters]
-      
+      weights = [m.axes[0] for m in self.font.masters]
       if self.font.customParameters["Virtual Master"]:
         weights.append(self.font.customParameters["Virtual Master"][0]["Location"])
-      minWt = min(weights)
-      maxWt = max(weights)
-      sliderWt = minWt + sliderPos * (maxWt-minWt)
+      minWt = min(weights) or 0
+      maxWt = max(weights) or 0
+
+      # print(minWt, sliderPos, maxWt, minWt)
+      sliderWt = minWt + sliderPos * (maxWt - minWt)
       
       # apply to preview instance and redraw
-      try:
-        # GLYPHS 3
-        self.font.instances[0].axes[0] = sliderWt
-        self.font.instances[0].updateInterpolationValues()
-      except:
-        # GLYPHS 2
-        self.font.instances[0].weightValue = sliderWt
-        self.font.currentTab.updatePreview()
-
-        # not necessary anymore, I think:
-        # self.font.currentTab.forceRedraw()
-        # self.font.updateInterface()
+      self.setAxisVals(sliderPos)
+      self.font.currentTab.updatePreview()
       
       if not self.SavePreferences( self ):
-        print("Note: 'OTVar Glyph Animator' could not write preferences.")
-    except Exception as e:
+        print "Note: 'OTVar Glyph Animator' could not write preferences."
+    except Exception, e:
       # brings macro window to front and reports error:
       Glyphs.showMacroWindow()
-      print("OTVar Glyph Animator Error: %s" % e)
+      print "OTVar Glyph Animator Error: %s" % e
       import traceback
-      print(traceback.format_exc())
+      print traceback.format_exc()
 
   def togglePlay(self, sender):
     self.w.makeKey()
@@ -281,6 +247,7 @@ class OTVarGlyphAnimator( object ):
       self.play_(None)
     else:
       self.w.runButton.setTitle("Play")
+      self.font.currentTab.previewInstances = 'live'
 
   def play_( self, sender ):
     try:
@@ -318,7 +285,9 @@ class OTVarGlyphAnimator( object ):
         self.font.currentTab.updatePreview()
         
         # Call this method again after a delay:
-        playSignature = objc.selector(self.play_,signature=b'v@:')
+        playSignature = objc.selector(self.play_,signature='v@:')
+        # self.timer = Timer(float(Glyphs.defaults["com.mekkablue.OTVarGlyphAnimator.delay"])/smoothnessFactor, self.playSignature)
+
         self.timer = NSTimer.scheduledTimerWithTimeInterval_target_selector_userInfo_repeats_(
           float(Glyphs.defaults["com.mekkablue.OTVarGlyphAnimator.delay"])/smoothnessFactor, # interval
           self, # target
@@ -326,12 +295,12 @@ class OTVarGlyphAnimator( object ):
           None, # userInfo
           False # repeat
         )
-    except Exception as e:
+    except Exception, e:
       # brings macro window to front and reports error:
       Glyphs.showMacroWindow()
-      print("OTVar Glyph Animator Error: %s" % e)
+      print "OTVar Glyph Animator Error: %s" % e
       import traceback
-      print(traceback.format_exc())
+      print traceback.format_exc()
       
   def slower(self, sender):
     delay = float(Glyphs.defaults["com.mekkablue.OTVarGlyphAnimator.delay"])
@@ -345,8 +314,8 @@ class OTVarGlyphAnimator( object ):
   
   def faster(self, sender):
     delay = float(Glyphs.defaults["com.mekkablue.OTVarGlyphAnimator.delay"])
-    if delay > 0.01:
-      delay -= 0.005
+    if delay > 0.02:
+      delay -= 0.01
       self.w.slower.enable(onOff=True)
     else:
       # disable faster button at fastest setting:
@@ -359,13 +328,7 @@ class OTVarGlyphAnimator( object ):
       if m.customParameters["Axis Location"]:
         axisPos = m.customParameters["Axis Location"][0]["Location"]
       else:
-        try:
-          # GLYPHS 3
-          axisPos = m.axes[0]
-        except:
-          # GLYPHS 2
-          axisPos = m.weightValue
-        
+        axisPos = m.axes[0]
       weightAxisPositions.append( int(axisPos) )
         
     if self.font.customParameters["Virtual Master"]:
@@ -374,7 +337,7 @@ class OTVarGlyphAnimator( object ):
     firstAxisTag = "wght"
     if self.font.customParameters["Axes"]:
       firstAxisTag = self.font.customParameters["Axes"][0]["Tag"]
-    
+
     htmlCode = """
 <!DOCTYPE html>
 <html>
@@ -395,7 +358,7 @@ class OTVarGlyphAnimator( object ):
 }
 body {
   font: 360px "%s";
-  animation: Looper %.1fs alternate ease-in-out 0s infinite;
+  animation: Looper %.1fs linear 0s infinite;
 }
 </style>
 </head>
@@ -418,14 +381,14 @@ body {
     else:
       exportPath = Glyphs.defaults["GXExportPathManual"]
       
-    print("exportPath:", exportPath)
+    print "exportPath:", exportPath
     if exportPath:
       if saveFileInLocation( content=htmlCode, fileName="font_animation.html", filePath=exportPath ):
-        print("Successfully wrote file to disk.")
-        terminalCommand = u'cd "%s"; open .' % exportPath
+        print "Successfully wrote file to disk."
+        terminalCommand = 'cd "%s"; open .' % exportPath
         os.system( terminalCommand )
       else:
-        print("Error writing file to disk.")
+        print "Error writing file to disk."
     else:
       Message( 
         title="Cannot Create HTML for OTVar",

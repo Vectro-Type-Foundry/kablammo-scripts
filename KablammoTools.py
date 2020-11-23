@@ -12,12 +12,15 @@ from DuplexWarnings import *
 from UseLayerForAllMasters import *
 from CopySelectionToOtherMasters import * 
 from DeleteSelectionInAllMasters import *
+from SynchronizeNodeSelection import *
 from AddPointsAtAngle import *
+from AddHandlesToStraightSegments import *
+from AddMidpoints import *
 
 class KablammoTools(object):
 
   def __init__(self):
-    self.w = Window((200, 310), "Kablammo Tools", minSize=(100, 100))
+    self.w = Window((200, 430), "Kablammo Tools", minSize=(100, 100))
     self.w.g1 = Group((10, 10, -10, -10))
 
     bHeight = 27
@@ -50,6 +53,10 @@ class KablammoTools(object):
     y+=margin
 
 
+    self.w.g1.SynchronizeNodeSelection = SquareButton((0, y, 0, bHeight), "Sync Node Selection", sizeStyle=bSize, callback=SynchronizeNodeSelection)
+
+    y+=margin
+
     self.w.g1.duplexWarnings = SquareButton((0, y, 0, bHeight), "Duplex Warnings", sizeStyle=bSize, callback=DuplexWarnings)
     
     y+=margin
@@ -59,6 +66,14 @@ class KablammoTools(object):
     self.w.g1.addPointsAtAngleAngleInput = EditText((0, y, 40, bHeight), text=self.addPointsAtAngleAngle, callback=self.addPointsAtAngleAngleCallback)
 
     self.w.g1.addPointsAtAngle = SquareButton((50, y, 0, bHeight), "Add Points at Angle", sizeStyle=bSize, callback=self.addPointsAtAngleCallback)
+    
+    y+=margin
+
+    self.w.g1.AddHandlesToStraightSegments = SquareButton((0, y, 0, bHeight), "Add Handles to Straight Segments", sizeStyle=bSize, callback=AddHandlesToStraightSegments)
+    
+    y+=margin
+
+    self.w.g1.AddMidpoints = SquareButton((0, y, 0, bHeight), "Add Midpoints to Curves", sizeStyle=bSize, callback=AddMidpoints)
     
     y+=margin
 
