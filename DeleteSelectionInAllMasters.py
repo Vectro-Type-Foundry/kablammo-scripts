@@ -24,7 +24,7 @@ class DeleteSelectionInAllMasters(object):
 
   def deleteIndexesInLayer(self, indexes, layer):
     for i in indexes:
-      del(layer.paths[i])
+      del(layer.shapes[i])
 
   def run(self):
     selectedIndexes = self.getSelectedContourIndexes()

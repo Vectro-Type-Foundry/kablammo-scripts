@@ -17,11 +17,10 @@ class AddHandlesToStraightSegments(object):
     for path in layer.paths:
       if path.selected: 
         for aNode in path.nodes:
-          if aNode.type == 'line':
+          if aNode and (aNode.type == 'line'):
             aPath = aNode.parent
             Index = aPath.nodes._owner.pyobjc_instanceMethods.nodes().index(aNode)
             PreviousNode = aPath.nodes[Index-1]
-            print aNode.type
             
             newNode = GSNode()
             newNode.type = GSOFFCURVE

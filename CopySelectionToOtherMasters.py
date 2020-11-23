@@ -23,6 +23,7 @@ class CopySelectionToOtherMasters(object):
       if layer != l:
         for i in range(len(l.paths)):
           if l.paths[i].selected:
-            layer.paths.insert(i, l.paths[i].copy())
+            #layer.paths.insert(i, l.paths[i].copy())
+            layer.shapes.insert(i, l.shapes[i].copy())
 
     Glyphs.redraw()
