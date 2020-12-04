@@ -1,3 +1,4 @@
+#MenuTitle: Add Handles to Straight Segments
 # Add Handles To Straight Segments
 
 # thisPath.insertNodeWithPathTime_(pathTime)
@@ -34,3 +35,6 @@ class AddHandlesToStraightSegments(object):
             aPath.insertNode_atIndex_(newNode, Index)
               
             aNode.type = GSCURVE
+
+
+AddHandlesToStraightSegments('')
