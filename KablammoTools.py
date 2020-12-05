@@ -16,11 +16,12 @@ from SynchronizeNodeSelection import *
 from AddPointsAtAngle import *
 from AddHandlesToStraightSegments import *
 from AddMidpoints import *
+from GenerateReverseAlts import *
 
 class KablammoTools(object):
 
   def __init__(self):
-    self.w = Window((200, 430), "Kablammo Tools", minSize=(100, 100))
+    self.w = Window((200, 467), "Kablammo Tools", minSize=(100, 100))
     self.w.g1 = Group((10, 10, -10, -10))
 
     bHeight = 27
@@ -77,6 +78,9 @@ class KablammoTools(object):
     
     y+=margin
 
+    self.w.g1.GenerateReverseAlts = SquareButton((0, y, 0, bHeight), "Generate Reverse Alts", sizeStyle=bSize, callback=GenerateReverseAlts)
+    
+    y+=margin
 
     self.w.open()
 
