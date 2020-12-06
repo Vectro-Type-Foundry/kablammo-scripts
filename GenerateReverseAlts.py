@@ -61,8 +61,6 @@ class GenerateReverseAlts(object):
     sourceGlyph = Glyphs.font.glyphs[sourceGlyphName]
     targetGlyph = Glyphs.font.glyphs[sourceGlyphName + altSuffix]
 
-    print(targetGlyph.layers)
-
     for layer in targetGlyph.layers:
       if layer.isSpecialLayer:
         oldName = str(layer.name)
@@ -76,8 +74,6 @@ class GenerateReverseAlts(object):
 
         newAssociatedMasterIndex = len(self.masterIds) - oldAssociatedMasterIndex - 2
         
-        print(oldName, newName, newAssociatedMasterIndex)
-
         layer.name = newName
         layer.associatedMasterId = self.masterIds[newAssociatedMasterIndex]
         

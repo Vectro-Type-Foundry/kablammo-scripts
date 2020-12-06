@@ -17,11 +17,12 @@ from AddPointsAtAngle import *
 from AddHandlesToStraightSegments import *
 from AddMidpoints import *
 from GenerateReverseAlts import *
+from Jiggle import *
 
 class KablammoTools(object):
 
   def __init__(self):
-    self.w = Window((200, 467), "Kablammo Tools", minSize=(100, 100))
+    self.w = Window((200, 430), "Kablammo Tools", minSize=(100, 100))
     self.w.g1 = Group((10, 10, -10, -10))
 
     bHeight = 27
@@ -70,11 +71,7 @@ class KablammoTools(object):
     
     y+=margin
 
-    self.w.g1.AddHandlesToStraightSegments = SquareButton((0, y, 0, bHeight), "Add Handles to Straight Segments", sizeStyle=bSize, callback=AddHandlesToStraightSegments)
-    
-    y+=margin
-
-    self.w.g1.AddMidpoints = SquareButton((0, y, 0, bHeight), "Add Midpoints to Curves", sizeStyle=bSize, callback=AddMidpoints)
+    self.w.g1.Jiggle = SquareButton((0, y, 0, bHeight), "Jiggle", sizeStyle=bSize, callback=Jiggle)
     
     y+=margin
 
