@@ -9,8 +9,8 @@ import random
 class Jiggle(object):
 
   def __init__(self, sender):
-    self.anchorRange = 0.2
-    self.handleRange = 0.2
+    self.anchorRange = 0.25
+    self.handleRange = 0.25
 
     self.run()
 

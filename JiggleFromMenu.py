@@ -6,5 +6,7 @@ Jiggles Selected Dots and Spots
 
 from GlyphsApp import *
 from Jiggle import *
+from SynchronizeNodeSelection import *
 
+SynchronizeNodeSelection('')
 Jiggle('')
