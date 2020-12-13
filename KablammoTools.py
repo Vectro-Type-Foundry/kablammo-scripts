@@ -71,7 +71,10 @@ class KablammoTools(object):
     
     y+=margin
 
-    self.w.g1.Jiggle = SquareButton((0, y, 0, bHeight), "Jiggle", sizeStyle=bSize, callback=Jiggle)
+    self.jiggleAmount = 20
+
+    self.w.g1.adjustJiggleInput = EditText((0, y, 40, bHeight), text=self.jiggleAmount, callback=self.adjustJiggleCallback)
+    self.w.g1.Jiggle = SquareButton((50, y, 0, bHeight), "Jiggle", sizeStyle=bSize, callback=self.runJiggle)
     
     y+=margin
 
@@ -89,6 +92,16 @@ class KablammoTools(object):
 
   def addPointsAtAngleCallback(self, sender):
     AddPointsAtAngle(self.addPointsAtAngleAngle)
+
+
+  def adjustJiggleCallback(self, sender):
+    try:
+      self.jiggleAmount = int(sender.get())
+    except:
+      print('not a valid value')
+
+  def runJiggle(self, sender):
+    Jiggle('', self.jiggleAmount)
 
   def test(self, v):
     DuplexWarnings()

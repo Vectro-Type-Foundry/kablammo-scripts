@@ -8,9 +8,9 @@ import random
 
 class Jiggle(object):
 
-  def __init__(self, sender):
-    self.anchorRange = 0.25
-    self.handleRange = 0.25
+  def __init__(self, sender, amount):
+    self.anchorRange = amount * 0.01
+    self.handleRange = amount * 0.01
 
     self.run()
 
@@ -55,8 +55,8 @@ class Jiggle(object):
 
   def jiggleNode(self, node):
     refNode = self.getReferenceNode(node)
-    randX = self.anchorRange * random.random()
-    randY = self.anchorRange * random.random()
+    randX = self.anchorRange * random.random() * self.randomPosNeg()
+    randY = self.anchorRange * random.random() * self.randomPosNeg()
 
     x = ((node.position.x - refNode.position.x) * randX) + node.position.x
     y = ((node.position.y - refNode.position.y) * randY) + node.position.y
