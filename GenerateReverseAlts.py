@@ -43,7 +43,7 @@ class GenerateReverseAlts(object):
 
     newGlyph = sourceGlyph.copy()
     newGlyph.name = altGlyphName
-    newGlyph.unicode = ''
+    newGlyph.unicode = None
     Glyphs.font.glyphs.append(newGlyph)
 
   def copyGlyph(self, sourceLayerMeta, sourceLayerOutlines, targetLayer):
