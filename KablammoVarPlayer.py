@@ -18,27 +18,75 @@ fontAxes = [
   }
 ]
 
-# List keyframes for the animation, similar to CSS animation. Use decimal percent for intermediate steps.
-animation1 = list([
-  {
-    "pct": 0,
-    "axes": {
-      "move": 1
-    }
-  },
-  {
-    "pct": 1,
-    "axes": {
-      "move": 1000
-    }
-  }
-])
-
 # multiple animations can be added here, which will show up in dropdown
 animationOptions = [
   {
-    "name": "movement",
-    "animation": animation1
+    "name": "move-full",
+    "animation": list([
+      {
+        "pct": 0,
+        "axes": {
+          "move": 1
+        }
+      },
+      {
+        "pct": 1,
+        "axes": {
+          "move": 1000
+        }
+      }
+    ])
+  },
+  {
+    "name": "move-a-b",
+    "animation": list([
+      {
+        "pct": 0,
+        "axes": {
+          "move": 1
+        }
+      },
+      {
+        "pct": 1,
+        "axes": {
+          "move": 333
+        }
+      }
+    ])
+  },
+  {
+    "name": "move-b-c",
+    "animation": list([
+      {
+        "pct": 0,
+        "axes": {
+          "move": 333
+        }
+      },
+      {
+        "pct": 1,
+        "axes": {
+          "move": 666
+        }
+      }
+    ])
+  },
+  {
+    "name": "move-c-d",
+    "animation": list([
+      {
+        "pct": 0,
+        "axes": {
+          "move": 666
+        }
+      },
+      {
+        "pct": 1,
+        "axes": {
+          "move": 1000
+        }
+      }
+    ])
   }
 ]
 
@@ -78,7 +126,7 @@ class OTVarGlyphAnimator( object ):
     
     self.w.animationOption = vanilla.ComboBox((125,-35, 120,-15), map(lambda x: x["name"], animationOptions),
         callback=self.animationOptionSelect)
-    self.w.animationOption.set("movement")
+    self.w.animationOption.set("move-full")
 
     # web button:
     # self.w.buildWeb = vanilla.Button((-140,-35, -100,-15), u"🌍", sizeStyle='regular', callback=self.buildWeb )
