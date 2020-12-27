@@ -6,15 +6,21 @@ Rebuild reverse variable alternates from base glyphs
 from GlyphsApp import *
 from Foundation import *
 
-sourceGlyphNames = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'border_9', 'Germandbls']
+sourceGlyphNames = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'Germandbls', 'border_9', 'border_6']
 
-ignoreInFeatures = ['border_9']
+ignoreInFeatures = ['border_9', 'border_6']
 
 specialGlyphs = [
   {
     'name': 'border_9', 
     'altName': 'border_10',
-    'unicode': 'E009',
+    'unicode': 'E003',
+    'flip': True
+  },
+  {
+    'name': 'border_6', 
+    'altName': 'border_7',
+    'unicode': 'E005',
     'flip': True
   }
 ]
