@@ -13,23 +13,32 @@ specialGlyphs = [
     'name': 'border_9', 
     'altName': 'border_10',
     'unicode': 'E003',
-    'flip': True,
+    'rotate': 180,
     'ignoreInCalt': True
   },
   {
     'name': 'border_6', 
     'altName': 'border_7',
     'unicode': 'E005',
-    'flip': True,
+    'rotate': 180,
     'ignoreInCalt': True
   },
   {
     'name': 'boxspiral', 
     'altName': 'boxspiral_2',
     'unicode': 'E00E',
-    'flip': True,
-    'ignoreInCalt': True
-  }
+    'rotate': 180,
+    'ignoreInCalt': True,
+  },
+  {
+    'name': 'nestedBox', 
+    'altName': 'nestedDiamond',
+    'unicode': 'E011',
+    'rotate': 45,
+    'ignoreInCalt': True,
+    'width': 1019,
+    'center': True
+  },
 ]
 
 sourceGlyphNames = normalGlyphs + map(lambda g: g['name'], specialGlyphs)  
@@ -134,13 +143,23 @@ class GenerateReverseAlts(object):
       False,
       True
     )
-  
-  def flipGlyph(self, glyph):
-    print 'flip'
+
+  def rotateGlyph(self, glyph, degrees):
     for layer in glyph.layers:
       x = (layer.bounds.size.width * 0.5) + layer.bounds.origin.x
       y = (layer.bounds.size.height * 0.5) + layer.bounds.origin.y
-      self.rotateLayer(layer, 180, x, y)
+      self.rotateLayer(layer, degrees, x, y)
+
+  def setGlyphWidth(self, glyph, width):
+    for layer in glyph.layers:
+      layer.width = width
+
+  def centerGlyph(self, glyph):
+    for layer in glyph.layers:
+      width = layer.width
+      newSB = int((layer.LSB + layer.RSB) * 0.5)
+      layer.LSB = newSB
+      layer.width = width
 
   def specialGlyphs(self):
     for specialGlyph in specialGlyphs:
@@ -152,8 +171,15 @@ class GenerateReverseAlts(object):
       glyph.name = specialGlyph['altName']
       glyph.unicode = specialGlyph['unicode']
 
-      if specialGlyph['flip']:
-        self.flipGlyph(glyph)
+      if 'rotate' in specialGlyph.keys():
+        self.rotateGlyph(glyph, specialGlyph['rotate'])
+
+      if 'width' in specialGlyph.keys():
+        self.setGlyphWidth(glyph, specialGlyph['width'])
+
+      if 'center' in specialGlyph.keys() and specialGlyph['center']:
+        self.centerGlyph(glyph)
+
 
   def run(self):
     for sourceGlyphName in sourceGlyphNames:
