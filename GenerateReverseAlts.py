@@ -6,24 +6,34 @@ Rebuild reverse variable alternates from base glyphs
 from GlyphsApp import *
 from Foundation import *
 
-sourceGlyphNames = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'Germandbls', 'border_9', 'border_6']
-
-ignoreInFeatures = ['border_9', 'border_6']
+normalGlyphs = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'Germandbls']
 
 specialGlyphs = [
   {
     'name': 'border_9', 
     'altName': 'border_10',
     'unicode': 'E003',
-    'flip': True
+    'flip': True,
+    'ignoreInCalt': True
   },
   {
     'name': 'border_6', 
     'altName': 'border_7',
     'unicode': 'E005',
-    'flip': True
+    'flip': True,
+    'ignoreInCalt': True
+  },
+  {
+    'name': 'boxspiral', 
+    'altName': 'boxspiral_2',
+    'unicode': 'E00E',
+    'flip': True,
+    'ignoreInCalt': True
   }
 ]
+
+sourceGlyphNames = normalGlyphs + map(lambda g: g['name'], specialGlyphs)  
+
 altSuffix = '.rev'
 
 class GenerateReverseAlts(object):
@@ -110,8 +120,10 @@ class GenerateReverseAlts(object):
     lookupName = "dup" + str(skip)
     skipCode = " ".join(map(lambda x: "@skip", range(skip)))
     code = "lookup " + lookupName + " {\n"
+    ignoreList = [g for g in specialGlyphs if g['ignoreInCalt']]
+    
     for sourceGlyphName in sourceGlyphNames:
-      if sourceGlyphName not in ignoreInFeatures:
+      if sourceGlyphName not in ignoreList:
         code += "  sub " + sourceGlyphName + " " + skipCode + " " + sourceGlyphName + "\' by " + sourceGlyphName + altSuffix + ";\n"
     code += "} " + lookupName + ";\n"
     return code
