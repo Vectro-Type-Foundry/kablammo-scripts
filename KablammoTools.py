@@ -22,7 +22,7 @@ from Jiggle import *
 class KablammoTools(object):
 
   def __init__(self):
-    self.w = Window((200, 430), "Kablammo Tools", minSize=(100, 100))
+    self.w = FloatingWindow((200, 430), "Kablammo Tools", minSize=(100, 100))
     self.w.g1 = Group((10, 10, -10, -10))
 
     bHeight = 27
