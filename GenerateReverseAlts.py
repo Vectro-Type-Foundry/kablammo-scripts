@@ -129,8 +129,7 @@ class GenerateReverseAlts(object):
     lookupName = "dup" + str(skip)
     skipCode = " ".join(map(lambda x: "@skip", range(skip)))
     code = "lookup " + lookupName + " {\n"
-    ignoreList = [g for g in specialGlyphs if g['ignoreInCalt']]
-    
+    ignoreList = [g['name'] for g in specialGlyphs if g['ignoreInCalt']]
     for sourceGlyphName in sourceGlyphNames:
       if sourceGlyphName not in ignoreList:
         code += "  sub " + sourceGlyphName + " " + skipCode + " " + sourceGlyphName + "\' by " + sourceGlyphName + altSuffix + ";\n"
@@ -183,7 +182,6 @@ class GenerateReverseAlts(object):
 
   def run(self):
     for sourceGlyphName in sourceGlyphNames:
-      print sourceGlyphName
       self.duplicatesourceGlyph(sourceGlyphName)
       self.reverseMasters(sourceGlyphName)
       self.reverseSpecialLayers(sourceGlyphName)

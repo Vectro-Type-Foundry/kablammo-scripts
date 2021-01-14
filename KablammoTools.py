@@ -8,7 +8,7 @@ from vanilla import *
 from CollapseHandles import *
 from CollapseShape import *
 from SyncToFirstLayerSelected import *
-from DuplexWarnings import *
+from GlyphWarnings import *
 from UseLayerForAllMasters import *
 from CopySelectionToOtherMasters import * 
 from DeleteSelectionInAllMasters import *
@@ -59,7 +59,7 @@ class KablammoTools(object):
 
     y+=margin
 
-    self.w.g1.duplexWarnings = SquareButton((0, y, 0, bHeight), "Duplex Warnings", sizeStyle=bSize, callback=DuplexWarnings)
+    self.w.g1.glyphWarnings = SquareButton((0, y, 0, bHeight), "Glyph Warnings", sizeStyle=bSize, callback=GlyphWarnings)
     
     y+=margin
 
