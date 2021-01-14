@@ -38,7 +38,7 @@ specialGlyphs = [
     'ignoreInCalt': True,
     'width': 1019,
     'center': True
-  },
+  }
 ]
 
 sourceGlyphNames = normalGlyphs + map(lambda g: g['name'], specialGlyphs)  
