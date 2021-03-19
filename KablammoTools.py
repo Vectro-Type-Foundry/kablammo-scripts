@@ -18,12 +18,11 @@ from AddHandlesToStraightSegments import *
 from AddMidpoints import *
 from GenerateReverseAlts import *
 from Jiggle import *
-from AddSpecialLayersToComponents import *
 
 class KablammoTools(object):
 
   def __init__(self):
-    self.w = FloatingWindow((200, 455), "Kablammo Tools", minSize=(100, 100))
+    self.w = FloatingWindow((200, 425), "Kablammo Tools", minSize=(100, 100))
     self.w.g1 = Group((10, 10, -10, -10))
 
     bHeight = 27
@@ -80,10 +79,6 @@ class KablammoTools(object):
     y+=margin
 
     self.w.g1.GenerateReverseAlts = SquareButton((0, y, 0, bHeight), "Generate Reverse Alts", sizeStyle=bSize, callback=GenerateReverseAlts)
-    
-    y+=margin
-
-    self.w.g1.AddSpecialLayersToComponents = SquareButton((0, y, 0, bHeight), "Add Special Layers to Components", sizeStyle=bSize, callback=AddSpecialLayersToComponents)
     
     y+=margin
 

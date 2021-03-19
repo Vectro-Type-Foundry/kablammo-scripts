@@ -103,6 +103,10 @@ class GenerateReverseAlts(object):
         
         oldAxisVal = int(oldName[oldName.find("{")+1:oldName.find("}")])
         newAxisVal = int(self.axisRange - oldAxisVal + min(self.axisVals))
+        if newAxisVal == 167:
+          newAxisVal = 166
+        elif newAxisVal == 834:
+          newAxisVal = 833
 
         newName = oldName.replace(str(oldAxisVal), str(newAxisVal))
 
