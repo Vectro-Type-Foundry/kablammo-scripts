@@ -13,7 +13,7 @@
 
 from __future__ import division, print_function, unicode_literals
 import objc
-from GlyphsApp import *
+from GlyphsApp import * 
 from GlyphsApp.plugins import *
 
 class KablammoDashGrid(ReporterPlugin):
@@ -25,9 +25,9 @@ class KablammoDashGrid(ReporterPlugin):
 		self.keyboardShortcut = 'k'
 		self.keyboardShortcutModifier = NSControlKeyMask | NSCommandKeyMask | NSAlternateKeyMask
 		self.numRows = 9
-		self.rowWidth = 100
-		self.marginTop = 79
-		self.marginBottom = 69
+		self.rowWidth = 200
+		self.marginTop = 158
+		self.marginBottom = 138
 		self.onColor = ( 0.0, 1.0, 0.0, 0.15 )
 		self.offColor = ( 1.0, 0.0, 0.0, 0.15 )
 	
