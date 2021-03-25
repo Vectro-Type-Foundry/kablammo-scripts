@@ -6,7 +6,7 @@ Rebuild reverse variable alternates from base glyphs
 from GlyphsApp import *
 from Foundation import *
 
-normalGlyphs = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'Germandbls']
+normalGlyphs = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'Germandbls', 'exclam', 'question']
 
 specialGlyphs = [
   {
