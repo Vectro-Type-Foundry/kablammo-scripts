@@ -17,7 +17,7 @@ class GlyphWarnings(object):
     print('Inconsistent Widths')
     primaryLayerNames = [m.name for m in Glyphs.font.masters]
     for glyph in Glyphs.font.glyphs:
-      layers = [l for l in glyph.layers if l.name in primaryLayerNames]
+      layers = [l for l in glyph.layers if (l.isMasterLayer or l.isSpecialLayer)]
       widths = [l.width for l in layers]
       if len(set(widths)) > 1:
         print(str(glyph.name) + ': ', widths)

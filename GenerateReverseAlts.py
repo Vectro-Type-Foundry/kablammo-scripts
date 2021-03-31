@@ -6,7 +6,7 @@ Rebuild reverse variable alternates from base glyphs
 from GlyphsApp import *
 from Foundation import *
 
-normalGlyphs = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'Germandbls', 'exclam', 'question']
+normalGlyphs = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'Germandbls', 'exclam', 'question', 'quotedblright', 'quoteright', 'quotedblleft', 'quoteleft']
 
 specialGlyphs = [
   {
@@ -36,7 +36,7 @@ specialGlyphs = [
     'unicode': 'E011',
     'rotate': 45,
     'ignoreInCalt': True,
-    'width': 1019,
+    'width': 2040,
     'center': True
   }
 ]
@@ -141,11 +141,15 @@ class GenerateReverseAlts(object):
     return code
 
   def rotateLayer(self, layer, degrees=0.0, xOrigin=0.0, yOrigin=0.0):
+    newLSB = layer.RSB
+    width = layer.width
     layer.transform_checkForSelection_doComponents_( 
       rotationTransform(angle=degrees, xOrigin=xOrigin, yOrigin=yOrigin),
       False,
       True
     )
+    layer.LSB = newLSB
+    layer.width = width
 
   def rotateGlyph(self, glyph, degrees):
     for layer in glyph.layers:
