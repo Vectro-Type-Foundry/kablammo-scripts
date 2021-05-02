@@ -5,6 +5,7 @@ In selection, alert in console if any glyphs are not duplexed, or same width acr
 # Travis Kochel. Updated August 10, 2020.
 
 from GlyphsApp import *
+import re
 
 
 class GlyphWarnings(object):
@@ -28,6 +29,12 @@ class GlyphWarnings(object):
       for layer in glyph.layers:
         if 'off' in layer.name:
           print(glyph.name, layer.name)
+        if '{' in layer.name:
+          find = re.compile(r"^[^{]*")
+          match = re.search(find, layer.name).group(0)
+          if match:
+            print(glyph.name, layer.name)
+
 
   def run(self):
     self.inconsistentWidths()
