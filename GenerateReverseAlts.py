@@ -41,8 +41,11 @@ specialGlyphs = [
   }
 ]
 
-sourceGlyphNames = normalGlyphs + map(lambda g: g['name'], specialGlyphs)  
+ignoreInCaltList = [g['name'] for g in specialGlyphs if g['ignoreInCalt']]
+specialGlyphsNameList = [g['name'] for g in specialGlyphs]
 
+sourceGlyphNames = normalGlyphs + map(lambda g: g['name'], specialGlyphs)  
+caltGlyphNames = [g for g in sourceGlyphNames if (g not in ignoreInCaltList)]
 altSuffix = '.rev'
 
 class GenerateReverseAlts(object):
@@ -61,7 +64,7 @@ class GenerateReverseAlts(object):
 
   def duplicatesourceGlyph(self, sourceGlyphName):
     sourceGlyph = Glyphs.font.glyphs[sourceGlyphName]
-    altGlyphName = sourceGlyphName + '.rev'
+    altGlyphName = sourceGlyphName + altSuffix
 
     if Glyphs.font.glyphs[altGlyphName]:
       del(Glyphs.font.glyphs[altGlyphName])
@@ -116,28 +119,66 @@ class GenerateReverseAlts(object):
         
         layer.name = newName
         layer.associatedMasterId = self.masterIds[newAssociatedMasterIndex]
-        
+
+  def getAltName(self, name):
+    if name in specialGlyphsNameList:
+      specialGlyph = filter(lambda sg: sg['name'] == g, specialGlyphsNameList)[0]
+      return specialGlyph['altname']
+    else:
+      return name + altSuffix
+
+  def alt1ClassList(self):
+    return [g for g in sourceGlyphNames if (g not in ignoreInCaltList)]
+
+  def alt2ClassList(self):
+    return [self.getAltName(g) for g in self.alt1ClassList()]
+
+  def skipClassList(self):
+    normalGlyphs = [g for g in sourceGlyphNames if (g not in ignoreInCaltList)]
+    altGlyphs = []
+    for g in sourceGlyphNames:
+      if g not in ignoreInCaltList:
+        altGlyphs.append(self.getAltName(g))
+    return normalGlyphs + altGlyphs
+
+  def skipClasses(self):
+    code = ""
+    for glyph in caltGlyphNames:
+      glyphs1 = [g for g in caltGlyphNames if g != glyph]
+      glyphs2 = [self.getAltName(g) for g in caltGlyphNames if g != glyph]
+      code += "@skip_" + glyph + " = [" + " ".join(glyphs1) + " " + " ".join(glyphs2) + "];\n"
+    return code
+
   def updateFeatureCode(self):
     code = ""
-
     # classes
-    code += "@skip = [" + " ".join(sourceGlyphNames) + "];\n"
+    code += self.skipClasses()
 
+    code += "lookup dup {\n"
     for i in range(10):
-      code += self.featureDupLookup(i)
+      code += self.featureDupLookup(i, False)
+    code += "} dup;\n"
+
+    code += "lookup dupRev {\n"
+    for i in range(10):
+      code += self.featureDupLookup(i, True)
+    code += "} dupRev;\n"
 
     Glyphs.font.features['calt'] = code
     Glyphs.font.updateFeatures()
 
-  def featureDupLookup(self, skip):
-    lookupName = "dup" + str(skip)
-    skipCode = " ".join(map(lambda x: "@skip", range(skip)))
-    code = "lookup " + lookupName + " {\n"
-    ignoreList = [g['name'] for g in specialGlyphs if g['ignoreInCalt']]
+  def featureDupLookup(self, skip, rev):
+    code = ""
     for sourceGlyphName in sourceGlyphNames:
-      if sourceGlyphName not in ignoreList:
-        code += "  sub " + sourceGlyphName + " " + skipCode + " " + sourceGlyphName + "\' by " + sourceGlyphName + altSuffix + ";\n"
-    code += "} " + lookupName + ";\n"
+      if sourceGlyphName not in ignoreInCaltList:
+        skipCode = " ".join(map(lambda x: "@skip_" + sourceGlyphName, range(skip)))
+        targetGlyph = sourceGlyphName
+        replacementGlyph = self.getAltName(sourceGlyphName)
+        if rev:
+          targetGlyph = self.getAltName(sourceGlyphName)
+          replacementGlyph = sourceGlyphName
+
+        code += "  sub " + targetGlyph + " " + skipCode + " " + targetGlyph + "\' by " + replacementGlyph + ";\n"
     return code
 
   def rotateLayer(self, layer, degrees=0.0, xOrigin=0.0, yOrigin=0.0):
