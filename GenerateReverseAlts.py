@@ -251,6 +251,8 @@ class GenerateReverseAlts(object):
     excludeList = []
     if len(matchingGroups) > 0:
       excludeList = [matchingGroups[0]['key']] + matchingGroups[0]['glyphs']
+    else:
+      excludeList = [glyphName]
     
     return filter(lambda g: g not in excludeList, caltGlyphNamesIncludingGroups)
 
@@ -278,16 +280,10 @@ class GenerateReverseAlts(object):
     code += self.skipClasses()
     code += self.groupClasses()
 
-    contextRange = 8
+    contextRange = 5
     for i in range(contextRange):
-      code += "lookup dup" + str(i) + " {\n"
       code += self.featureDupLookup(i, False)
-      code += "} dup" + str(i) + ";\n"
-
-    code += "lookup dupRev" + str(i) + " {\n"
-    for i in range(contextRange):
       code += self.featureDupLookup(i, True)
-    code += "} dupRev" + str(i) + ";\n"
 
     Glyphs.font.features['calt'] = code
     Glyphs.font.updateFeatures()
@@ -303,10 +299,22 @@ class GenerateReverseAlts(object):
       else:
         return self.getAltName(glyphName)
 
+  def chunkifyList(self, l, n):
+    for i in range(0, len(l), n): 
+      yield l[i:i + n]
+
   def featureDupLookup(self, skip, rev):
     code = ""
-    for sourceGlyphName in sourceGlyphNames:
-      if sourceGlyphName not in ignoreInCaltList:
+    revTag = 'rev' if rev else ''
+    maxSubGroupSize = 10
+    glyphNameChunks = self.chunkifyList(caltGlyphNames, maxSubGroupSize)
+
+    for i, glyphNameChunk in enumerate(glyphNameChunks):
+      tagName = "dup" + str(skip) + revTag + "_" + str(i)
+      code += "lookup " + tagName + " {\n"
+
+      for sourceGlyphName in glyphNameChunk:
+        
         skipCode = " ".join(map(lambda x: "@skip_" + sourceGlyphName, range(skip)))
         targetGlyph = self.classOrBaseSub(sourceGlyphName, 1)
         replacementGlyph = self.classOrBaseSub(sourceGlyphName, 2)
@@ -315,6 +323,9 @@ class GenerateReverseAlts(object):
           replacementGlyph = self.classOrBaseSub(sourceGlyphName, 1)
 
         code += "  sub " + targetGlyph + " " + skipCode + " " + targetGlyph + "\' by " + replacementGlyph + ";\n"
+
+      code += "} " + tagName + ";\n"
+
     return code
 
   def rotateLayer(self, layer, degrees=0.0, xOrigin=0.0, yOrigin=0.0):
