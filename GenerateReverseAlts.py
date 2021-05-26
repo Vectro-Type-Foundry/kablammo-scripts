@@ -278,15 +278,16 @@ class GenerateReverseAlts(object):
     code += self.skipClasses()
     code += self.groupClasses()
 
-    code += "lookup dup {\n"
-    for i in range(10):
+    contextRange = 8
+    for i in range(contextRange):
+      code += "lookup dup" + str(i) + " {\n"
       code += self.featureDupLookup(i, False)
-    code += "} dup;\n"
+      code += "} dup" + str(i) + ";\n"
 
-    code += "lookup dupRev {\n"
-    for i in range(10):
+    code += "lookup dupRev" + str(i) + " {\n"
+    for i in range(contextRange):
       code += self.featureDupLookup(i, True)
-    code += "} dupRev;\n"
+    code += "} dupRev" + str(i) + ";\n"
 
     Glyphs.font.features['calt'] = code
     Glyphs.font.updateFeatures()
