@@ -6,7 +6,95 @@ Rebuild reverse variable alternates from base glyphs
 from GlyphsApp import *
 from Foundation import *
 
-normalGlyphs = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'Germandbls', 'exclam', 'question', 'quotedblright', 'quoteright', 'quotedblleft', 'quoteleft', 'A-cy', 'Be-cy', 'Ve-cy', 'Ge-cy', 'De-cy', 'Ie-cy', 'Iegrave-cy', 'Io-cy', 'Zhe-cy', 'Ze-cy', 'Ii-cy', 'Iigrave-cy', 'Iishort-cy', 'Ka-cy', 'El-cy', 'Em-cy', 'En-cy', 'O-cy', 'Pe-cy', 'Er-cy', 'Es-cy', 'Te-cy', 'U-cy', 'Ef-cy', 'Ha-cy', 'Tse-cy', 'Che-cy', 'Sha-cy', 'Shcha-cy', 'Hardsign-cy', 'Yeru-cy', 'Softsign-cy', 'Ereversed-cy', 'Iu-cy', 'Ia-cy', 'I-cy', 'Yi-cy', 'Ushort-cy', 'Fita-cy', 'Izhitsa-cy', 'Yat-cy', 'E-cy', 'Gje-cy', 'Gheupturn-cy']
+normalGlyphs = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Oslash", "OE", "Thorn", "Schwa", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "A-cy", "Be-cy", "Ve-cy", "Ge-cy", "De-cy", "Ie-cy", "Iegrave-cy", "Io-cy", "Zhe-cy", "Ze-cy", "Ii-cy", "Iigrave-cy", "Iishort-cy", "Ka-cy", "El-cy", "Em-cy", "En-cy", "O-cy", "Pe-cy", "Er-cy", "Es-cy", "Te-cy", "U-cy", "Ef-cy", "Ha-cy", "Tse-cy", "Che-cy", "Sha-cy", "Shcha-cy", "Hardsign-cy", "Yeru-cy", "Softsign-cy", "Ereversed-cy", "Iu-cy", "Ia-cy", "I-cy", "Yi-cy", "Ushort-cy", "Fita-cy", "Izhitsa-cy", "Yat-cy", "E-cy", "Gje-cy", "Gheupturn-cy", "period", "comma", "exclam", "exclamdown", "question", "questiondown", "periodcentered", "asterisk", "slash", "backslash", "parenleft", "parenright", "braceleft", "braceright", "bracketleft", "bracketright", "hyphen", "endash", "emdash", "underscore", "quotesinglbase", "quotedblbase", "quotedblleft", "quotedblright", "quoteleft", "quoteright", "guillemetleft", "guillemetright", "guilsinglleft", "guilsinglright", "dollar", "euro", "plus", "equal", "greater", "less", "percent", "at", "ampersand", "cedi", "colonsign", "dong", "franc", "guarani", "hryvnia", "kip", "lira", "liraTurkish", "manat", "naira", "peseta", "peso", "ruble", "rupeeIndian", "sterling", "tenge", "tugrik", "won", "yen"]
+
+
+glyphGroups = [
+  {
+    'key': 'A',
+    'glyphs': ['Aacute', 'Abreve', 'Abreveacute', 'Abrevedotbelow', 'Abrevegrave', 'Abrevehookabove', 'Abrevetilde', 'Acircumflex', 'Acircumflexacute', 'Acircumflexdotbelow', 'Acircumflexgrave', 'Acircumflexhookabove', 'Acircumflextilde', 'Adblgrave', 'Adieresis', 'Adotbelow', 'Agrave', 'Ahookabove', 'Ainvertedbreve', 'Amacron', 'Aogonek', 'Aring', 'Aringacute', 'Atilde']
+  },
+  {
+  	'key': 'C',
+  	'glyphs': ['Cacute', 'Ccaron', 'Ccedilla', 'Ccedillaacute', 'Ccircumflex', 'Cdotaccent']
+  },
+  {
+    'key': 'D',
+    'glyphs': ['Eth', 'Dcaron', 'Dcroat', 'Ddotbelow', 'Dlinebelow']
+  },
+  {
+    'key': 'E',
+    'glyphs': ['Eacute', 'Ebreve', 'Ecaron', 'Ecedillabreve', 'Ecircumflex', 'Ecircumflexacute', 'Ecircumflexdotbelow', 'Ecircumflexgrave', 'Ecircumflexhookabove', 'Ecircumflextilde', 'Edblgrave', 'Edieresis', 'Edotaccent', 'Edotbelow', 'Egrave', 'Ehookabove', 'Einvertedbreve', 'Emacron', 'Emacronacute', 'Emacrongrave', 'Eogonek', 'Etilde']
+  },
+  {
+    'key': 'G',
+    'glyphs': ['Gbreve', 'Gcaron', 'Gcircumflex', 'Gcommaaccent', 'Gdotaccent', 'Gmacron']
+  },
+  {
+    'key': 'H',
+    'glyphs': ['Hbar', 'Hbrevebelow', 'Hcircumflex', 'Hdotbelow']
+  },
+  {
+    'key': 'I',
+    'glyphs': ['Iacute', 'Ibreve', 'Icircumflex', 'Idblgrave', 'Idieresis', 'Idieresisacute', 'Idotaccent', 'Idotbelow', 'Igrave', 'Ihookabove', 'Iinvertedbreve', 'Imacron', 'Iogonek', 'Itilde']
+  },
+  {
+    'key': 'J',
+    'glyphs': ['Jacute', 'Jcircumflex']
+  },
+  {
+    'key': 'K',
+    'glyphs': ['Kcommaaccent']
+  },
+  {
+    'key': 'L',
+    'glyphs': ['Lacute', 'Lcaron', 'Lcommaaccent', 'Ldot', 'Ldotbelow', 'Llinebelow', 'Lslash']
+  },
+  {
+    'key': 'M',
+    'glyphs': ['Mdotbelow']
+  },
+  {
+    'key': 'N',
+    'glyphs': ['Nacute', 'Ncaron', 'Ncommaaccent', 'Ndotaccent', 'Ndotbelow', 'Nlinebelow', 'Ntilde']
+  },
+  {
+    'key': 'O',
+    'glyphs': ['Oacute', 'Obreve', 'Ocircumflex', 'Ocircumflexacute', 'Ocircumflexdotbelow', 'Ocircumflexgrave', 'Ocircumflexhookabove', 'Ocircumflextilde', 'Odblgrave', 'Odieresis', 'Odieresismacron', 'Odotaccentmacron', 'Odotbelow', 'Ograve', 'Ohookabove', 'Ohorn', 'Ohornacute', 'Ohorndotbelow', 'Ohorngrave', 'Ohornhookabove', 'Ohorntilde', 'Ohungarumlaut', 'Oinvertedbreve', 'Omacron', 'Omacronacute', 'Omacrongrave', 'Oogonek', 'Otilde', 'Otildeacute', 'Otildedieresis', 'Otildemacron']
+  },
+  {
+    'key': 'Oslash',
+    'glyphs': ['Oslashacute']
+  },
+  {
+    'key': 'R',
+    'glyphs': ['Racute', 'Rcaron', 'Rcommaaccent', 'Rdblgrave', 'Rdotbelow', 'Rinvertedbreve', 'Rlinebelow']
+  },
+  {
+    'key': 'S',
+    'glyphs': ['Sacute', 'Sacutedotaccent', 'Scaron', 'Scarondotaccent', 'Scedilla', 'Scircumflex', 'Scommaaccent', 'Sdotaccent', 'Sdotbelow', 'Sdotbelowdotaccent']
+  },
+  {
+    'key': 'T',
+    'glyphs': ['Tbar', 'Tcaron', 'Tcedilla', 'Tcommaaccent', 'Tdotbelow', 'Tlinebelow']
+  },
+  {
+    'key': 'U',
+    'glyphs': ['Uacute', 'Ubreve', 'Ucircumflex', 'Udblgrave', 'Udieresis', 'Udotbelow', 'Ugrave', 'Uhookabove', 'Uhorn', 'Uhornacute', 'Uhorndotbelow', 'Uhorngrave', 'Uhornhookabove', 'Uhorntilde', 'Uhungarumlaut', 'Uinvertedbreve', 'Umacron', 'Umacrondieresis', 'Uogonek', 'Uring', 'Utilde', 'Utildeacute']
+  },
+  {
+    'key': 'W',
+    'glyphs': ['Wacute', 'Wcircumflex', 'Wdieresis', 'Wgrave']
+  },
+  {
+    'key': 'Y',
+    'glyphs': ['Yacute', 'Ycircumflex', 'Ydieresis', 'Ydotaccent', 'Ydotbelow', 'Ygrave', 'Yhookabove', 'Ymacron', 'Ytilde']
+  },
+  {
+    'key': 'Z',
+    'glyphs': ['Zacute', 'Zcaron', 'Zdotaccent', 'Zdotbelow']
+  },
+]
 
 specialGlyphs = [
   {
@@ -44,9 +132,20 @@ specialGlyphs = [
 ignoreInCaltList = [g['name'] for g in specialGlyphs if g['ignoreInCalt']]
 specialGlyphsNameList = [g['name'] for g in specialGlyphs]
 
-sourceGlyphNames = normalGlyphs + map(lambda g: g['name'], specialGlyphs)  
+sourceGlyphNames = normalGlyphs + map(lambda g: g['name'], specialGlyphs)
+sourceGlyphNamesFromGroups = [g for glyphGroup in glyphGroups for g in glyphGroup['glyphs']]
+
+sourceGlyphNamesIncludingGroups = sourceGlyphNames + sourceGlyphNamesFromGroups
+
 caltGlyphNames = [g for g in sourceGlyphNames if (g not in ignoreInCaltList)]
+caltGlyphNamesIncludingGroups = caltGlyphNames + sourceGlyphNamesFromGroups
+
 altSuffix = '.rev'
+
+# build feature code
+#  if in groups list, use class syntax
+#  add to ignore glyphs
+
 
 class GenerateReverseAlts(object):
 
@@ -72,10 +171,13 @@ class GenerateReverseAlts(object):
     newGlyph = sourceGlyph.copy()
     newGlyph.name = altGlyphName
     newGlyph.unicode = None
+    newGlyph.color = 11
+
     Glyphs.font.glyphs.append(newGlyph)
 
-  def copyGlyph(self, sourceLayerMeta, sourceLayerOutlines, targetLayer):
-    newLayer = sourceLayerOutlines.copy()
+  def copyGlyph(self, sourceLayerMeta, sourceLayer, targetLayer):
+    newLayer = sourceLayer.copyDecomposedLayer()
+    # newLayer.decomposeComponents()
     newLayer.name = sourceLayerMeta.name
     newLayer.layerId = sourceLayerMeta.layerId
     newLayer.associatedMasterId = sourceLayerMeta.associatedMasterId
@@ -89,11 +191,11 @@ class GenerateReverseAlts(object):
 
     for i, masterId in enumerate(self.masterIds):
       sourceLayerMeta = sourceGlyph.layers[masterId]
-      sourceLayerOutlines = sourceGlyph.layers[self.reversedMasterIds[i]]
+      sourceLayer = sourceGlyph.layers[self.reversedMasterIds[i]]
 
       self.copyGlyph(
         sourceLayerMeta, 
-        sourceLayerOutlines, 
+        sourceLayer, 
         targetGlyph.layers[masterId])
 
   def reverseSpecialLayers(self, sourceGlyphName):
@@ -141,44 +243,127 @@ class GenerateReverseAlts(object):
         altGlyphs.append(self.getAltName(g))
     return normalGlyphs + altGlyphs
 
+  def glyphsNotInGroup(self, glyphName):
+    matchingGroups = filter(lambda glyphGroup: glyphGroup['key'] == glyphName, glyphGroups)
+    excludeList = []
+    if len(matchingGroups) > 0:
+      excludeList = [matchingGroups[0]['key']] + matchingGroups[0]['glyphs']
+    else:
+      excludeList = [glyphName]
+    
+    return filter(lambda g: g not in excludeList, caltGlyphNamesIncludingGroups)
+
   def skipClasses(self):
     code = ""
     for glyph in caltGlyphNames:
-      glyphs1 = [g for g in caltGlyphNames if g != glyph]
-      glyphs2 = [self.getAltName(g) for g in caltGlyphNames if g != glyph]
-      code += "@skip_" + glyph + " = [" + " ".join(glyphs1) + " " + " ".join(glyphs2) + "];\n"
+      glyphs1 = self.glyphsNotInGroup(glyph)
+      glyphs2 = [self.getAltName(g) for g in glyphs1]
+      code += "@skip" + glyph + " = [" + " ".join(glyphs1) + " " + " ".join(glyphs2) + "];\n"
     return code
+
+  def groupClasses(self):
+    code = ""
+    for group in glyphGroups:
+      code += "@" + group['key'] + "1 = [" + group['key'] + " " + " ".join(group['glyphs']) + "];\n"
+      
+      altGlyphs = [self.getAltName(g) for g in group['glyphs']]
+      code += "@" + group['key'] + "2 = [" + self.getAltName(group['key']) + " " + " ".join(altGlyphs) + "];\n"
+
+    return code
+
+  def generateClasses(self):
+    code = ""
+    code += self.skipClasses()
+    code += self.groupClasses()
+    # put them in prefix
+    Glyphs.font.featurePrefixes['caltClasses'] = code
+
+
+  def generateGlobalLookups(self):
+    code = ""
+    # lookup lookup_0 {
+    #   sub A by A.rev;
+    #   sub Aacute by Aacute.rev;
+    #   ...
+    # } lookup_0;
+
+    # lookup lookup_1 {
+    #   sub A.rev by A;
+    #   sub Aacute.rev by Aacute;
+    # ...
+    # } lookup_1;
+
+    code += "lookup calt1 {\n"
+    for glyphName in caltGlyphNames:
+      code += "sub " + glyphName + " by " + self.getAltName(glyphName) + ";\n"
+    code += "} calt1;\n"
+
+    code += "lookup calt2 {\n"
+    for glyphName in caltGlyphNames:
+      code += "  sub " + self.getAltName(glyphName) + " by " + glyphName + ";\n"
+    code += "} calt2;\n"
+    Glyphs.font.featurePrefixes['caltLookups'] = code
 
   def updateFeatureCode(self):
     code = ""
-    # classes
-    code += self.skipClasses()
+    self.generateClasses()
+    self.generateGlobalLookups()
 
-    code += "lookup dup {\n"
-    for i in range(10):
+    contextRange1 = 10
+    contextRange2 = 10
+
+    code += "lookup swap useExtension {\n"
+    for i in range(contextRange1):
       code += self.featureDupLookup(i, False)
-    code += "} dup;\n"
+    code += "} swap;\n"
 
-    code += "lookup dupRev {\n"
-    for i in range(10):
+    code += "lookup swapR useExtension {\n"
+    for i in range(contextRange2):
       code += self.featureDupLookup(i, True)
-    code += "} dupRev;\n"
+    code += "} swapR;\n"
 
     Glyphs.font.features['calt'] = code
     Glyphs.font.updateFeatures()
 
+
+  def classOrBaseSub(self, glyphName, position):
+    matchingGroups = filter(lambda glyphGroup: glyphGroup['key'] == glyphName, glyphGroups)
+    if len(matchingGroups) > 0:
+      return "@" + glyphName + str(position)
+    else:
+      if position == 1:
+        return glyphName
+      else:
+        return self.getAltName(glyphName)
+
+  def chunkifyList(self, l, n):
+    for i in range(0, len(l), n): 
+      yield l[i:i + n]
+
   def featureDupLookup(self, skip, rev):
     code = ""
-    for sourceGlyphName in sourceGlyphNames:
-      if sourceGlyphName not in ignoreInCaltList:
-        skipCode = " ".join(map(lambda x: "@skip_" + sourceGlyphName, range(skip)))
-        targetGlyph = sourceGlyphName
-        replacementGlyph = self.getAltName(sourceGlyphName)
-        if rev:
-          targetGlyph = self.getAltName(sourceGlyphName)
-          replacementGlyph = sourceGlyphName
+    revTag = 'r' if rev else ''
+    maxSubGroupSize = 1000
+    glyphNameChunks = self.chunkifyList(caltGlyphNames, maxSubGroupSize)
 
-        code += "  sub " + targetGlyph + " " + skipCode + " " + targetGlyph + "\' by " + replacementGlyph + ";\n"
+    for i, glyphNameChunk in enumerate(glyphNameChunks):
+      tagName = "skip" + str(skip) + revTag
+      # code += "lookup " + tagName + " useExtension {\n"
+
+      for sourceGlyphName in glyphNameChunk:
+        
+        skipCode = " ".join(map(lambda x: "@skip" + sourceGlyphName, range(skip)))
+        targetGlyph = self.classOrBaseSub(sourceGlyphName, 1)
+        replacementLookup = 'calt1'
+
+        if rev:
+          targetGlyph = self.classOrBaseSub(sourceGlyphName, 2)
+          replacementLookup = 'calt2'
+
+        code += "  sub " + targetGlyph + " " + skipCode + " " + targetGlyph + "\' lookup " + replacementLookup + ";\n"
+
+      # code += "} " + tagName + ";\n"
+
     return code
 
   def rotateLayer(self, layer, degrees=0.0, xOrigin=0.0, yOrigin=0.0):
@@ -230,13 +415,16 @@ class GenerateReverseAlts(object):
 
 
   def run(self):
-    for sourceGlyphName in sourceGlyphNames:
+    Glyphs.font.disableUpdateInterface()
+    
+    for sourceGlyphName in sourceGlyphNamesIncludingGroups:
       self.duplicatesourceGlyph(sourceGlyphName)
       self.reverseMasters(sourceGlyphName)
       self.reverseSpecialLayers(sourceGlyphName)
     self.updateFeatureCode()
     self.specialGlyphs()
-
+    
+    Glyphs.font.enableUpdateInterface()
     Glyphs.redraw()
 
 
@@ -248,3 +436,49 @@ def rotationTransform( angle=180.0, xOrigin=0.0, yOrigin=0.0 ):
     RotationTransform.rotateByDegrees_( angle )
     RotationTransform.translateXBy_yBy_( -xOrigin, -yOrigin )
     return RotationTransform
+
+
+
+## OT structure
+
+# // external lookups 
+
+# lookup lookup_0 {
+#   sub A by A.rev;
+#   sub Aacute by Aacute.rev;
+#   ...
+# } lookup_0;
+
+# lookup lookup_1 {
+#   sub A.rev by A;
+#   sub Aacute.rev by Aacute;
+# ...
+# } lookup_1;
+
+
+# // in calt
+# // one section for each skip round?
+
+# lookup calt0 {
+# 	sub @A_1 @A_2' lookup lookup_0 ;
+# 	sub B B' lookup lookup_0 ;
+#   ...
+# } calt0;
+# lookup calt1 {
+# 	sub @A_1 @skip_A @A_1' lookup lookup_0 ;
+# 	sub B @skip_B B' lookup lookup_0 ;
+#   ...
+# } calt1;
+
+# ///....
+# // rev time
+
+# lookup calt7 {
+# 	sub @A_2 @A_2' lookup lookup_1 ;
+# 	sub B.rev B.rev' lookup lookup_1 ;
+#   ...
+# } calt7;
+# lookup calt8 {
+#   sub @A_2 @skip_A @A_2' lookup lookup_1 ;
+# 	sub B.rev @skip_B B.rev' lookup lookup_1;
+# } calt8;
