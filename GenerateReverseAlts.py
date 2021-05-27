@@ -6,6 +6,8 @@ Rebuild reverse variable alternates from base glyphs
 from GlyphsApp import *
 from Foundation import *
 
+# normalGlyphs = ['B', 'F']
+
 normalGlyphs = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'Oslash', 'OE', 'Thorn', 'Schwa', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'A-cy', 'Be-cy', 'Ve-cy', 'Ge-cy', 'De-cy', 'Ie-cy', 'Iegrave-cy', 'Io-cy', 'Zhe-cy', 'Ze-cy', 'Ii-cy', 'Iigrave-cy', 'Iishort-cy', 'Ka-cy', 'El-cy', 'Em-cy', 'En-cy', 'O-cy', 'Pe-cy', 'Er-cy', 'Es-cy', 'Te-cy', 'U-cy', 'Ef-cy', 'Ha-cy', 'Tse-cy', 'Che-cy', 'Sha-cy', 'Shcha-cy', 'Hardsign-cy', 'Yeru-cy', 'Softsign-cy', 'Ereversed-cy', 'Iu-cy', 'Ia-cy', 'I-cy', 'Yi-cy', 'Ushort-cy', 'Fita-cy', 'Izhitsa-cy', 'Yat-cy', 'E-cy', 'Gje-cy', 'Gheupturn-cy', 'period', 'comma', 'exclam', 'exclamdown', 'question', 'questiondown', 'periodcentered', 'asterisk', 'slash', 'backslash', 'parenleft', 'parenright', 'braceleft', 'braceright', 'bracketleft', 'bracketright', 'hyphen', 'endash', 'emdash', 'underscore', 'quotesinglbase', 'quotedblbase', 'quotedblleft', 'quotedblright', 'quoteleft', 'quoteright', 'guillemetleft', 'guillemetright', 'guilsinglleft', 'guilsinglright', 'currency', 'dollar', 'euro', 'plus', 'equal', 'greater', 'less', 'percent', 'upArrow', 'northEastArrow', 'rightArrow', 'southEastArrow', 'downArrow', 'southWestArrow', 'leftArrow', 'northWestArrow', 'leftRightArrow', 'upDownArrow', 'at', 'ampersand']
 
 glyphGroups = [
@@ -311,11 +313,15 @@ class GenerateReverseAlts(object):
     contextRange1 = 10
     contextRange2 = 10
 
+    code += "lookup swap useExtension {\n"
     for i in range(contextRange1):
       code += self.featureDupLookup(i, False)
+    code += "} swap;\n"
 
+    code += "lookup swapR useExtension {\n"
     for i in range(contextRange2):
       code += self.featureDupLookup(i, True)
+    code += "} swapR;\n"
 
     Glyphs.font.features['calt'] = code
     Glyphs.font.updateFeatures()
@@ -343,23 +349,21 @@ class GenerateReverseAlts(object):
 
     for i, glyphNameChunk in enumerate(glyphNameChunks):
       tagName = "skip" + str(skip) + revTag
-      code += "lookup " + tagName + " useExtension {\n"
+      # code += "lookup " + tagName + " useExtension {\n"
 
       for sourceGlyphName in glyphNameChunk:
         
         skipCode = " ".join(map(lambda x: "@skip" + sourceGlyphName, range(skip)))
         targetGlyph = self.classOrBaseSub(sourceGlyphName, 1)
-        # replacementGlyph = self.classOrBaseSub(sourceGlyphName, 2)
         replacementLookup = 'calt1'
 
         if rev:
           targetGlyph = self.classOrBaseSub(sourceGlyphName, 2)
-          # replacementGlyph = self.classOrBaseSub(sourceGlyphName, 1)
           replacementLookup = 'calt2'
 
         code += "  sub " + targetGlyph + " " + skipCode + " " + targetGlyph + "\' lookup " + replacementLookup + ";\n"
 
-      code += "} " + tagName + ";\n"
+      # code += "} " + tagName + ";\n"
 
     return code
 
