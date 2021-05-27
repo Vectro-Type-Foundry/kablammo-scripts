@@ -343,7 +343,7 @@ class GenerateReverseAlts(object):
 
     for i, glyphNameChunk in enumerate(glyphNameChunks):
       tagName = "skip" + str(skip) + revTag
-      code += "lookup " + tagName + " {\n"
+      code += "lookup " + tagName + " useExtension {\n"
 
       for sourceGlyphName in glyphNameChunk:
         
