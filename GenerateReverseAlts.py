@@ -294,12 +294,12 @@ class GenerateReverseAlts(object):
     # } lookup_1;
 
     code += "lookup calt1 {\n"
-    for glyphName in caltGlyphNames:
+    for glyphName in caltGlyphNamesIncludingGroups:
       code += "sub " + glyphName + " by " + self.getAltName(glyphName) + ";\n"
     code += "} calt1;\n"
 
     code += "lookup calt2 {\n"
-    for glyphName in caltGlyphNames:
+    for glyphName in caltGlyphNamesIncludingGroups:
       code += "  sub " + self.getAltName(glyphName) + " by " + glyphName + ";\n"
     code += "} calt2;\n"
     Glyphs.font.featurePrefixes['caltLookups'] = code
