@@ -6,16 +6,12 @@ Rebuild reverse variable alternates from base glyphs
 from GlyphsApp import *
 from Foundation import *
 
-normalGlyphs = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'AE', 'Eng', 'Oslash', 'OE', 'Thorn', 'Schwa', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'Germandbls', 'A-cy', 'Be-cy', 'Ve-cy', 'Ge-cy', 'De-cy', 'Ie-cy', 'Iegrave-cy', 'Io-cy', 'Zhe-cy', 'Ze-cy', 'Ii-cy', 'Iigrave-cy', 'Iishort-cy', 'Ka-cy', 'El-cy', 'Em-cy', 'En-cy', 'O-cy', 'Pe-cy', 'Er-cy', 'Es-cy', 'Te-cy', 'U-cy', 'Ef-cy', 'Ha-cy', 'Tse-cy', 'Che-cy', 'Sha-cy', 'Shcha-cy', 'Hardsign-cy', 'Yeru-cy', 'Softsign-cy', 'Ereversed-cy', 'Iu-cy', 'Ia-cy', 'I-cy', 'Yi-cy', 'Ushort-cy', 'Fita-cy', 'Izhitsa-cy', 'Yat-cy', 'E-cy', 'Gje-cy', 'Gheupturn-cy', 'period', 'comma', 'colon', 'semicolon', 'ellipsis', 'exclam', 'exclamdown', 'question', 'questiondown', 'periodcentered', 'bullet', 'asterisk', 'numbersign', 'slash', 'backslash', 'parenleft', 'parenright', 'braceleft', 'braceright', 'bracketleft', 'bracketright', 'hyphen', 'endash', 'emdash', 'underscore', 'quotesinglbase', 'quotedblbase', 'quotedblleft', 'quotedblright', 'quoteleft', 'quoteright', 'guillemetleft', 'guillemetright', 'guilsinglleft', 'guilsinglright', 'quotedbl', 'quotesingle', 'currency', 'dollar', 'euro', 'plus', 'equal', 'greater', 'less', 'percent', 'upArrow', 'northEastArrow', 'rightArrow', 'southEastArrow', 'downArrow', 'southWestArrow', 'leftArrow', 'northWestArrow', 'leftRightArrow', 'upDownArrow', 'at', 'ampersand']
+normalGlyphs = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z', 'Oslash', 'OE', 'Thorn', 'Schwa', 'zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'A-cy', 'Be-cy', 'Ve-cy', 'Ge-cy', 'De-cy', 'Ie-cy', 'Iegrave-cy', 'Io-cy', 'Zhe-cy', 'Ze-cy', 'Ii-cy', 'Iigrave-cy', 'Iishort-cy', 'Ka-cy', 'El-cy', 'Em-cy', 'En-cy', 'O-cy', 'Pe-cy', 'Er-cy', 'Es-cy', 'Te-cy', 'U-cy', 'Ef-cy', 'Ha-cy', 'Tse-cy', 'Che-cy', 'Sha-cy', 'Shcha-cy', 'Hardsign-cy', 'Yeru-cy', 'Softsign-cy', 'Ereversed-cy', 'Iu-cy', 'Ia-cy', 'I-cy', 'Yi-cy', 'Ushort-cy', 'Fita-cy', 'Izhitsa-cy', 'Yat-cy', 'E-cy', 'Gje-cy', 'Gheupturn-cy', 'period', 'comma', 'exclam', 'exclamdown', 'question', 'questiondown', 'periodcentered', 'asterisk', 'slash', 'backslash', 'parenleft', 'parenright', 'braceleft', 'braceright', 'bracketleft', 'bracketright', 'hyphen', 'endash', 'emdash', 'underscore', 'quotesinglbase', 'quotedblbase', 'quotedblleft', 'quotedblright', 'quoteleft', 'quoteright', 'guillemetleft', 'guillemetright', 'guilsinglleft', 'guilsinglright', 'currency', 'dollar', 'euro', 'plus', 'equal', 'greater', 'less', 'percent', 'upArrow', 'northEastArrow', 'rightArrow', 'southEastArrow', 'downArrow', 'southWestArrow', 'leftArrow', 'northWestArrow', 'leftRightArrow', 'upDownArrow', 'at', 'ampersand']
 
 glyphGroups = [
   {
     'key': 'A',
     'glyphs': ['Aacute', 'Abreve', 'Abreveacute', 'Abrevedotbelow', 'Abrevegrave', 'Abrevehookabove', 'Abrevetilde', 'Acircumflex', 'Acircumflexacute', 'Acircumflexdotbelow', 'Acircumflexgrave', 'Acircumflexhookabove', 'Acircumflextilde', 'Adblgrave', 'Adieresis', 'Adotbelow', 'Agrave', 'Ahookabove', 'Ainvertedbreve', 'Amacron', 'Aogonek', 'Aring', 'Aringacute', 'Atilde']
-  },
-  {
-    'key': 'AE',
-    'glyphs': ['AE', 'AEacute']
   },
   {
   	'key': 'C',
@@ -261,28 +257,64 @@ class GenerateReverseAlts(object):
     for glyph in caltGlyphNames:
       glyphs1 = self.glyphsNotInGroup(glyph)
       glyphs2 = [self.getAltName(g) for g in glyphs1]
-      code += "@skip_" + glyph + " = [" + " ".join(glyphs1) + " " + " ".join(glyphs2) + "];\n"
+      code += "@skip" + glyph + " = [" + " ".join(glyphs1) + " " + " ".join(glyphs2) + "];\n"
     return code
 
   def groupClasses(self):
     code = ""
     for group in glyphGroups:
-      code += "@" + group['key'] + "_1 = [" + group['key'] + " " + " ".join(group['glyphs']) + "];\n"
+      code += "@" + group['key'] + "1 = [" + group['key'] + " " + " ".join(group['glyphs']) + "];\n"
       
       altGlyphs = [self.getAltName(g) for g in group['glyphs']]
-      code += "@" + group['key'] + "_2 = [" + self.getAltName(group['key']) + " " + " ".join(altGlyphs) + "];\n"
+      code += "@" + group['key'] + "2 = [" + self.getAltName(group['key']) + " " + " ".join(altGlyphs) + "];\n"
 
     return code
 
-  def updateFeatureCode(self):
+  def generateClasses(self):
     code = ""
-    # classes
     code += self.skipClasses()
     code += self.groupClasses()
+    # put them in prefix
+    Glyphs.font.featurePrefixes['caltClasses'] = code
 
-    contextRange = 5
-    for i in range(contextRange):
+
+  def generateGlobalLookups(self):
+    code = ""
+    # lookup lookup_0 {
+    #   sub A by A.rev;
+    #   sub Aacute by Aacute.rev;
+    #   ...
+    # } lookup_0;
+
+    # lookup lookup_1 {
+    #   sub A.rev by A;
+    #   sub Aacute.rev by Aacute;
+    # ...
+    # } lookup_1;
+
+    code += "lookup calt1 {\n"
+    for glyphName in caltGlyphNames:
+      code += "sub " + glyphName + " by " + self.getAltName(glyphName) + ";\n"
+    code += "} calt1;\n"
+
+    code += "lookup calt2 {\n"
+    for glyphName in caltGlyphNames:
+      code += "  sub " + self.getAltName(glyphName) + " by " + glyphName + ";\n"
+    code += "} calt2;\n"
+    Glyphs.font.featurePrefixes['caltLookups'] = code
+
+  def updateFeatureCode(self):
+    code = ""
+    self.generateClasses()
+    self.generateGlobalLookups()
+
+    contextRange1 = 10
+    contextRange2 = 10
+
+    for i in range(contextRange1):
       code += self.featureDupLookup(i, False)
+
+    for i in range(contextRange2):
       code += self.featureDupLookup(i, True)
 
     Glyphs.font.features['calt'] = code
@@ -292,7 +324,7 @@ class GenerateReverseAlts(object):
   def classOrBaseSub(self, glyphName, position):
     matchingGroups = filter(lambda glyphGroup: glyphGroup['key'] == glyphName, glyphGroups)
     if len(matchingGroups) > 0:
-      return "@" + glyphName + "_" + str(position)
+      return "@" + glyphName + str(position)
     else:
       if position == 1:
         return glyphName
@@ -305,24 +337,27 @@ class GenerateReverseAlts(object):
 
   def featureDupLookup(self, skip, rev):
     code = ""
-    revTag = 'rev' if rev else ''
-    maxSubGroupSize = 10
+    revTag = 'r' if rev else ''
+    maxSubGroupSize = 1000
     glyphNameChunks = self.chunkifyList(caltGlyphNames, maxSubGroupSize)
 
     for i, glyphNameChunk in enumerate(glyphNameChunks):
-      tagName = "dup" + str(skip) + revTag + "_" + str(i)
+      tagName = "skip" + str(skip) + revTag
       code += "lookup " + tagName + " {\n"
 
       for sourceGlyphName in glyphNameChunk:
         
-        skipCode = " ".join(map(lambda x: "@skip_" + sourceGlyphName, range(skip)))
+        skipCode = " ".join(map(lambda x: "@skip" + sourceGlyphName, range(skip)))
         targetGlyph = self.classOrBaseSub(sourceGlyphName, 1)
-        replacementGlyph = self.classOrBaseSub(sourceGlyphName, 2)
+        # replacementGlyph = self.classOrBaseSub(sourceGlyphName, 2)
+        replacementLookup = 'calt1'
+
         if rev:
           targetGlyph = self.classOrBaseSub(sourceGlyphName, 2)
-          replacementGlyph = self.classOrBaseSub(sourceGlyphName, 1)
+          # replacementGlyph = self.classOrBaseSub(sourceGlyphName, 1)
+          replacementLookup = 'calt2'
 
-        code += "  sub " + targetGlyph + " " + skipCode + " " + targetGlyph + "\' by " + replacementGlyph + ";\n"
+        code += "  sub " + targetGlyph + " " + skipCode + " " + targetGlyph + "\' lookup " + replacementLookup + ";\n"
 
       code += "} " + tagName + ";\n"
 
@@ -395,3 +430,49 @@ def rotationTransform( angle=180.0, xOrigin=0.0, yOrigin=0.0 ):
     RotationTransform.rotateByDegrees_( angle )
     RotationTransform.translateXBy_yBy_( -xOrigin, -yOrigin )
     return RotationTransform
+
+
+
+## OT structure
+
+# // external lookups 
+
+# lookup lookup_0 {
+#   sub A by A.rev;
+#   sub Aacute by Aacute.rev;
+#   ...
+# } lookup_0;
+
+# lookup lookup_1 {
+#   sub A.rev by A;
+#   sub Aacute.rev by Aacute;
+# ...
+# } lookup_1;
+
+
+# // in calt
+# // one section for each skip round?
+
+# lookup calt0 {
+# 	sub @A_1 @A_2' lookup lookup_0 ;
+# 	sub B B' lookup lookup_0 ;
+#   ...
+# } calt0;
+# lookup calt1 {
+# 	sub @A_1 @skip_A @A_1' lookup lookup_0 ;
+# 	sub B @skip_B B' lookup lookup_0 ;
+#   ...
+# } calt1;
+
+# ///....
+# // rev time
+
+# lookup calt7 {
+# 	sub @A_2 @A_2' lookup lookup_1 ;
+# 	sub B.rev B.rev' lookup lookup_1 ;
+#   ...
+# } calt7;
+# lookup calt8 {
+#   sub @A_2 @skip_A @A_2' lookup lookup_1 ;
+# 	sub B.rev @skip_B B.rev' lookup lookup_1;
+# } calt8;
