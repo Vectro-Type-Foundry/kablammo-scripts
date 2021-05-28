@@ -6,9 +6,11 @@ Rebuild reverse variable alternates from base glyphs
 from GlyphsApp import *
 from Foundation import *
 
+
+# normalGlyphs = ["Aacute"]
 normalGlyphs = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Oslash", "OE", "Thorn", "Schwa", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "A-cy", "Be-cy", "Ve-cy", "Ge-cy", "De-cy", "Ie-cy", "Iegrave-cy", "Io-cy", "Zhe-cy", "Ze-cy", "Ii-cy", "Iigrave-cy", "Iishort-cy", "Ka-cy", "El-cy", "Em-cy", "En-cy", "O-cy", "Pe-cy", "Er-cy", "Es-cy", "Te-cy", "U-cy", "Ef-cy", "Ha-cy", "Tse-cy", "Che-cy", "Sha-cy", "Shcha-cy", "Hardsign-cy", "Yeru-cy", "Softsign-cy", "Ereversed-cy", "Iu-cy", "Ia-cy", "I-cy", "Yi-cy", "Ushort-cy", "Fita-cy", "Izhitsa-cy", "Yat-cy", "E-cy", "Gje-cy", "Gheupturn-cy", "period", "comma", "exclam", "exclamdown", "question", "questiondown", "periodcentered", "asterisk", "slash", "backslash", "parenleft", "parenright", "braceleft", "braceright", "bracketleft", "bracketright", "hyphen", "endash", "emdash", "underscore", "quotesinglbase", "quotedblbase", "quotedblleft", "quotedblright", "quoteleft", "quoteright", "guillemetleft", "guillemetright", "guilsinglleft", "guilsinglright", "dollar", "euro", "plus", "equal", "greater", "less", "percent", "at", "ampersand", "cedi", "colonsign", "dong", "franc", "guarani", "hryvnia", "kip", "lira", "liraTurkish", "manat", "naira", "peseta", "peso", "ruble", "rupeeIndian", "sterling", "tenge", "tugrik", "won", "yen"]
 
-
+# glyphGroups = []
 glyphGroups = [
   {
     'key': 'A',
@@ -175,9 +177,8 @@ class GenerateReverseAlts(object):
 
     Glyphs.font.glyphs.append(newGlyph)
 
-  def copyGlyph(self, sourceLayerMeta, sourceLayer, targetLayer):
+  def copyLayer(self, sourceLayerMeta, sourceLayer, targetLayer):
     newLayer = sourceLayer.copyDecomposedLayer()
-    # newLayer.decomposeComponents()
     newLayer.name = sourceLayerMeta.name
     newLayer.layerId = sourceLayerMeta.layerId
     newLayer.associatedMasterId = sourceLayerMeta.associatedMasterId
@@ -189,19 +190,41 @@ class GenerateReverseAlts(object):
     sourceGlyph = Glyphs.font.glyphs[sourceGlyphName]
     targetGlyph = Glyphs.font.glyphs[sourceGlyphName + altSuffix]
 
+    self.addComponentSpecialLayers(targetGlyph)
+
     for i, masterId in enumerate(self.masterIds):
       sourceLayerMeta = sourceGlyph.layers[masterId]
       sourceLayer = sourceGlyph.layers[self.reversedMasterIds[i]]
 
-      self.copyGlyph(
+      self.copyLayer(
         sourceLayerMeta, 
         sourceLayer, 
         targetGlyph.layers[masterId])
 
+    self.decomposeGlyph(targetGlyph)
+
+  def addComponentSpecialLayers(self, targetGlyph):
+    for component in targetGlyph.layers[0].components:
+      glyphLayerNames = map(lambda x: x.name, targetGlyph.layers)
+      for layer in component.component.layers:
+        if layer.isSpecialLayer:
+          if layer.name not in glyphLayerNames:
+            print('add: ' + layer.name, layer.associatedMasterId)
+            newLayer = GSLayer()
+            newLayer.name = layer.name
+            newLayer.associatedMasterId = layer.associatedMasterId
+            targetGlyph.layers.append(newLayer)
+            targetGlyph.layers[newLayer.layerId].reinterpolate()
+            
+
+  def decomposeGlyph(self, targetGlyph):
+    for layer in targetGlyph.layers:
+      layer.decomposeComponents()
+
   def reverseSpecialLayers(self, sourceGlyphName):
     sourceGlyph = Glyphs.font.glyphs[sourceGlyphName]
     targetGlyph = Glyphs.font.glyphs[sourceGlyphName + altSuffix]
-
+    
     for layer in targetGlyph.layers:
       if layer.isSpecialLayer:
         oldName = str(layer.name)
@@ -416,7 +439,7 @@ class GenerateReverseAlts(object):
 
   def run(self):
     Glyphs.font.disableUpdateInterface()
-    
+
     for sourceGlyphName in sourceGlyphNamesIncludingGroups:
       self.duplicatesourceGlyph(sourceGlyphName)
       self.reverseMasters(sourceGlyphName)
