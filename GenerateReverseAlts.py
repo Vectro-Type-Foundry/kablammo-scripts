@@ -131,6 +131,8 @@ specialGlyphs = [
   }
 ]
 
+universalSkipGlyphs = ['space']
+
 ignoreInCaltList = [g['name'] for g in specialGlyphs if g['ignoreInCalt']]
 specialGlyphsNameList = [g['name'] for g in specialGlyphs]
 
@@ -281,7 +283,8 @@ class GenerateReverseAlts(object):
     for glyph in caltGlyphNames:
       glyphs1 = self.glyphsNotInGroup(glyph)
       glyphs2 = [self.getAltName(g) for g in glyphs1]
-      code += "@skip" + glyph + " = [" + " ".join(glyphs1) + " " + " ".join(glyphs2) + "];\n"
+      skipGlyphs = glyphs1 + glyphs2 + universalSkipGlyphs
+      code += "@skip" + glyph + " = [" + " ".join(skipGlyphs) + "];\n"
     return code
 
   def groupClasses(self):
