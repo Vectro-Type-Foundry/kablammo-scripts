@@ -8,7 +8,7 @@ from Foundation import *
 
 
 # normalGlyphs = ["Aacute"]
-normalGlyphs = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Oslash", "OE", "Thorn", "Schwa", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "A-cy", "Be-cy", "Ve-cy", "Ge-cy", "De-cy", "Ie-cy", "Iegrave-cy", "Io-cy", "Zhe-cy", "Ze-cy", "Ii-cy", "Iigrave-cy", "Iishort-cy", "Ka-cy", "El-cy", "Em-cy", "En-cy", "O-cy", "Pe-cy", "Er-cy", "Es-cy", "Te-cy", "U-cy", "Ef-cy", "Ha-cy", "Tse-cy", "Che-cy", "Sha-cy", "Shcha-cy", "Hardsign-cy", "Yeru-cy", "Softsign-cy", "Ereversed-cy", "Iu-cy", "Ia-cy", "I-cy", "Yi-cy", "Ushort-cy", "Fita-cy", "Izhitsa-cy", "Yat-cy", "E-cy", "Gje-cy", "Gheupturn-cy", "period", "comma", "exclam", "exclamdown", "question", "questiondown", "periodcentered", "asterisk", "slash", "backslash", "parenleft", "parenright", "braceleft", "braceright", "bracketleft", "bracketright", "hyphen", "endash", "emdash", "underscore", "quotesinglbase", "quotedblbase", "quotedblleft", "quotedblright", "quoteleft", "quoteright", "guillemetleft", "guillemetright", "guilsinglleft", "guilsinglright", "dollar", "euro", "plus", "equal", "greater", "less", "percent", "at", "ampersand", "cedi", "colonsign", "dong", "franc", "guarani", "hryvnia", "kip", "lira", "liraTurkish", "manat", "naira", "peseta", "peso", "ruble", "rupeeIndian", "sterling", "tenge", "tugrik", "won", "yen"]
+normalGlyphs = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Oslash", "OE", "Thorn", "Schwa", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "A-cy", "Be-cy", "Ve-cy", "Ge-cy", "De-cy", "Ie-cy", "Zhe-cy", "Ze-cy", "Ii-cy", "Ka-cy", "El-cy", "Em-cy", "En-cy", "O-cy", "Fita-cy", "Obarred-cy", "Pe-cy", "Er-cy", "Es-cy", "Te-cy", "U-cy", "Ef-cy", "Ha-cy", "Che-cy", "Tse-cy", "Sha-cy", "Shcha-cy", "Dzhe-cy", "Softsign-cy", "Hardsign-cy", "Yeru-cy", "Dze-cy", "Ereversed-cy", "E-cy", "I-cy", "Je-cy", "Tshe-cy", "Dje-cy", "Ghemiddlehook-cy", "Iu-cy", "Ia-cy", "Yusbig-cy", "Haabkhasian-cy", "Ustraight-cy", "Shha-cy", "Cheabkhasian-cy", "Schwa-cy", "Qa-cy", "We-cy", "Dzeabkhasian-cy", "period", "comma", "exclam", "exclamdown", "question", "questiondown", "periodcentered", "asterisk", "slash", "backslash", "parenleft", "parenright", "braceleft", "braceright", "bracketleft", "bracketright", "hyphen", "endash", "emdash", "underscore", "quotesinglbase", "quotedblbase", "quotedblleft", "quotedblright", "quoteleft", "quoteright", "guillemetleft", "guillemetright", "guilsinglleft", "guilsinglright", "dollar", "euro", "plus", "equal", "greater", "less", "percent", "at", "ampersand", "cedi", "colonsign", "dong", "franc", "guarani", "hryvnia", "kip", "lira", "liraTurkish", "manat", "naira", "peseta", "peso", "ruble", "rupeeIndian", "sterling", "tenge", "tugrik", "won", "yen"]
 
 # glyphGroups = []
 glyphGroups = [
@@ -95,6 +95,114 @@ glyphGroups = [
   {
     'key': 'Z',
     'glyphs': ['Zacute', 'Zcaron', 'Zdotaccent', 'Zdotbelow']
+  },
+  {
+    'key': 'A-cy',
+    'glyphs': ['Abreve-cy', 'Adieresis-cy']
+  },
+  {
+    'key': 'Ge-cy',
+    'glyphs': ['Gje-cy', 'Gheupturn-cy', 'Ghestroke-cy', 'Gedescender-cy', 'Gestrokehook-cy']
+  },
+  {
+    'key': 'Ie-cy',
+    'glyphs': ['Iegrave-cy', 'Io-cy', 'Iebreve-cy']
+  },
+  {
+    'key': 'Zhe-cy',
+    'glyphs': ['Zhedescender-cy', 'Zhebreve-cy', 'Zhedieresis-cy']
+  },
+  {
+    'key': 'Ze-cy',
+    'glyphs': ['Zedescender-cy', 'Zedieresis-cy', 'Reversedze-cy']
+  },
+  {
+    'key': 'Ii-cy',
+    'glyphs': ['Iishort-cy', 'Iigrave-cy', 'Iishorttail-cy', 'Imacron-cy', 'Idieresis-cy']
+  }, 
+  {
+    'key': 'Ka-cy',
+    'glyphs': ['Kje-cy', 'Kadescender-cy', 'Kaverticalstroke-cy', 'Kastroke-cy', 'Kabashkir-cy', 'Kahook-cy']
+  },
+  {
+    'key': 'El-cy',
+    'glyphs': ['Eltail-cy', 'Elhook-cy', 'Eldescender-cy']
+  },
+  {
+    'key': 'Em-cy',
+    'glyphs': ['Emtail-cy']
+  },
+  {
+    'key': 'En-cy',
+    'glyphs': ['Nje-cy', 'Enghe-cy', 'Enhook-cy', 'EnLeftHook-cy']
+  },
+  {
+    'key': 'O-cy',
+    'glyphs': ['Odieresis-cy']
+  },
+  {
+    'key': 'Obarred-cy',
+    'glyphs': ['Obarreddieresis-cy']
+  },
+  {
+    'key': 'Pe-cy',
+    'glyphs': ['Pedescender-cy']
+  },
+  {
+    'key': 'Er-cy',
+    'glyphs': ['Ertick-cy']
+  },
+  {
+    'key': 'Es-cy',
+    'glyphs': ['Esdescender-cy']
+  },
+  {
+    'key': 'Te-cy',
+    'glyphs': ['Tedescender-cy', 'Tetse-cy']
+  },
+  {
+    'key': 'U-cy',
+    'glyphs': ['Ushort-cy', 'Umacron-cy', 'Udieresis-cy', 'Uhungarumlaut-cy']
+  },
+  {
+    'key': 'Ha-cy',
+    'glyphs': ['Hadescender-cy', 'Hahook-cy', 'Hastroke-cy']
+  },
+  {
+    'key': 'Che-cy',
+    'glyphs': ['Chedescender-cy', 'Cheverticalstroke-cy', 'Chekhakassian-cy', 'Chedieresis-cy']
+  },
+  {
+    'key': 'Softsign-cy',
+    'glyphs': ['Lje-cy', 'Nje-cy', 'Yat-cy', 'Semisoftsign-cy']
+  },
+  {
+    'key': 'Yeru-cy',
+    'glyphs': ['Yerudieresis-cy']
+  },
+  {
+    'key': 'Ereversed-cy',
+    'glyphs': ['Edieresis-cy']
+  },
+  {
+    'key': 'I-cy',
+    'glyphs': ['Yi-cy', 'Palochka-cy']
+  },
+  {
+    'key': 'Ustraight-cy',
+    'glyphs': ['Ustraightstroke-cy']
+  },
+  {
+    'key': 'Shha-cy',
+    'glyphs': ['Shhadescender-cy']
+  },
+  {
+    'key': 'Cheabkhasian-cy',
+    'glyphs': ['Chedescenderabkhasian-cy']
+  },
+  {
+    'key': 'Schwa-cy',
+    'glyphs': ['Schwadieresis-cy']
   },
 ]
 
