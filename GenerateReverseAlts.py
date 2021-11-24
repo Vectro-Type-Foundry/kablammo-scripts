@@ -6,11 +6,13 @@ Rebuild reverse variable alternates from base glyphs
 from GlyphsApp import *
 from Foundation import *
 
-
+contextRange = 10
+contextRangeRev = 10
 # normalGlyphs = ["Aacute"]
 normalGlyphs = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Oslash", "OE", "Thorn", "Schwa", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "A-cy", "Be-cy", "Ve-cy", "Ge-cy", "De-cy", "Ie-cy", "Zhe-cy", "Ze-cy", "Ii-cy", "Ka-cy", "El-cy", "Em-cy", "En-cy", "O-cy", "Fita-cy", "Obarred-cy", "Pe-cy", "Er-cy", "Es-cy", "Te-cy", "U-cy", "Ef-cy", "Ha-cy", "Che-cy", "Tse-cy", "Sha-cy", "Shcha-cy", "Dzhe-cy", "Softsign-cy", "Hardsign-cy", "Yeru-cy", "Dze-cy", "Ereversed-cy", "E-cy", "I-cy", "Je-cy", "Tshe-cy", "Dje-cy", "Ghemiddlehook-cy", "Iu-cy", "Ia-cy", "Yusbig-cy", "Haabkhasian-cy", "Ustraight-cy", "Shha-cy", "Cheabkhasian-cy", "Schwa-cy", "Qa-cy", "We-cy", "Dzeabkhasian-cy", "period", "comma", "exclam", "exclamdown", "question", "questiondown", "periodcentered", "asterisk", "slash", "backslash", "parenleft", "parenright", "braceleft", "braceright", "bracketleft", "bracketright", "hyphen", "endash", "emdash", "underscore", "quotesinglbase", "quotedblbase", "quotedblleft", "quotedblright", "quoteleft", "quoteright", "guillemetleft", "guillemetright", "guilsinglleft", "guilsinglright", "dollar", "euro", "plus", "equal", "greater", "less", "percent", "at", "ampersand", "cedi", "colonsign", "dong", "franc", "guarani", "hryvnia", "kip", "lira", "liraTurkish", "manat", "naira", "peseta", "peso", "ruble", "rupeeIndian", "sterling", "tenge", "tugrik", "won", "yen"]
 
-# glyphGroups = []
+# normalGlyphs = ["A"]
+
 glyphGroups = [
   {
     'key': 'A',
@@ -174,7 +176,7 @@ glyphGroups = [
   },
   {
     'key': 'Softsign-cy',
-    'glyphs': ['Lje-cy', 'Nje-cy', 'Yat-cy', 'Semisoftsign-cy']
+    'glyphs': ['Lje-cy', 'Yat-cy', 'Semisoftsign-cy']
   },
   {
     'key': 'Yeru-cy',
@@ -205,6 +207,7 @@ glyphGroups = [
     'glyphs': ['Schwadieresis-cy']
   },
 ]
+# glyphGroups = []
 
 specialGlyphs = [
   {
@@ -443,16 +446,13 @@ class GenerateReverseAlts(object):
     self.generateClasses()
     self.generateGlobalLookups()
 
-    contextRange1 = 10
-    contextRange2 = 10
-
     code += "lookup swap useExtension {\n"
-    for i in range(contextRange1):
+    for i in range(contextRange):
       code += self.featureDupLookup(i, False)
     code += "} swap;\n"
 
     code += "lookup swapR useExtension {\n"
-    for i in range(contextRange2):
+    for i in range(contextRangeRev):
       code += self.featureDupLookup(i, True)
     code += "} swapR;\n"
 
