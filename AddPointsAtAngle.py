@@ -77,7 +77,7 @@ class AddPointsAtAngle(object):
       # This dict is sorted from largest to smallest time so we can simply insert 
       # the nodes, not worrying about their new indexes.
       orderedPoints = OrderedDict( sorted(tangentPoints.items(), reverse=True) )
-      for time, point in orderedPoints.iteritems():
+      for time, point in orderedPoints.items():
         # Insert the new nodes and profit!
         path.insertNodeWithPathTime_( time )
 
