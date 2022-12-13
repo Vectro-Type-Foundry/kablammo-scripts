@@ -19,10 +19,12 @@ class CopySelectionToOtherMasters(object):
     l = f.selectedLayers[0]
     g = l.parent
 
+    g.beginUndo()
     for layer in g.layers:
       if layer != l:
         for i in range(len(l.paths)):
           if l.paths[i].selected:
-            layer.paths.insert(i, l.paths[i].copy())
+            layer.paths.append(l.paths[i].copy())
 
     Glyphs.redraw()
+    g.endUndo()

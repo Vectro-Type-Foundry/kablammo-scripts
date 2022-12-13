@@ -16,21 +16,21 @@ class DeleteSelectionInAllMasters(object):
 
   def getSelectedContourIndexes(self):
     indexes = []
-    for i in range(len(self.currentLayer.paths)):
-      if self.currentLayer.paths[i].selected:
+    for i in range(len(self.currentLayer.shapes)):
+      if self.currentLayer.shapes[i].selected:
         indexes.append(i)
 
     return sorted(indexes, reverse=True)
 
   def deleteIndexesInLayer(self, indexes, layer):
     for i in indexes:
-      del(layer.paths[i])
+      if (len(layer.shapes) - 1) >= i:
+        del(layer.shapes[i])
 
   def run(self):
     selectedIndexes = self.getSelectedContourIndexes()
-
-    for masterId in self.masterIds:
-      self.deleteIndexesInLayer(selectedIndexes, self.glyph.layers[masterId])
+    for layer in self.glyph.layers:
+      self.deleteIndexesInLayer(selectedIndexes, layer)
 
     Glyphs.redraw()
 
