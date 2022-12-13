@@ -9,4 +9,4 @@ from Jiggle import *
 from SynchronizeNodeSelection import *
 
 SynchronizeNodeSelection('')
-Jiggle('')
+Jiggle('', 20)
