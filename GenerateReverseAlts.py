@@ -207,7 +207,12 @@ glyphGroups = [
     'glyphs': ['Schwadieresis-cy']
   },
 ]
-# glyphGroups = []
+# glyphGroups = [
+#   {
+#     'key': 'A',
+#     'glyphs': []
+#   }
+# ]
 
 specialGlyphs = [
   {
@@ -241,6 +246,7 @@ specialGlyphs = [
     'center': True
   }
 ]
+# specialGlyphs = []
 
 universalSkipGlyphs = ['space']
 
@@ -357,7 +363,7 @@ class GenerateReverseAlts(object):
         oldAssociatedMasterIndex = self.masterIds.index(layer.associatedMasterId)
 
         newAssociatedMasterIndex = len(self.masterIds) - oldAssociatedMasterIndex - 2
-        # layer.name = newName
+        layer.name = newName
         layer.attributes['coordinates'] = {self.axisId: newAxisVal }
         layer.associatedMasterId = self.masterIds[newAssociatedMasterIndex]
 
