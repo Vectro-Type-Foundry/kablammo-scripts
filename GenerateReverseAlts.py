@@ -275,6 +275,7 @@ class GenerateReverseAlts(object):
 
     self.axisVals = list(map(lambda x: x.axes[0], Glyphs.font.masters))
     self.axisRange = (max(self.axisVals) - min(self.axisVals))
+    self.axisId = Glyphs.font.axes[0].axisId
 
   def duplicatesourceGlyph(self, sourceGlyphName):
     sourceGlyph = Glyphs.font.glyphs[sourceGlyphName]
@@ -326,6 +327,8 @@ class GenerateReverseAlts(object):
             newLayer = GSLayer()
             newLayer.name = layer.name
             newLayer.associatedMasterId = layer.associatedMasterId
+
+            newLayer.attributes['coordinates'] = {self.axisId: layer.name.replace('{', '').replace('}', '') }
             targetGlyph.layers.append(newLayer)
             targetGlyph.layers[newLayer.layerId].reinterpolate()
             
@@ -354,8 +357,8 @@ class GenerateReverseAlts(object):
         oldAssociatedMasterIndex = self.masterIds.index(layer.associatedMasterId)
 
         newAssociatedMasterIndex = len(self.masterIds) - oldAssociatedMasterIndex - 2
-        
-        layer.name = newName
+        # layer.name = newName
+        layer.attributes['coordinates'] = {self.axisId: newAxisVal }
         layer.associatedMasterId = self.masterIds[newAssociatedMasterIndex]
 
   def getAltName(self, name):
