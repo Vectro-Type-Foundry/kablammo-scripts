@@ -207,7 +207,12 @@ glyphGroups = [
     'glyphs': ['Schwadieresis-cy']
   },
 ]
-# glyphGroups = []
+# glyphGroups = [
+#   {
+#     'key': 'A',
+#     'glyphs': []
+#   }
+# ]
 
 specialGlyphs = [
   {
@@ -241,13 +246,14 @@ specialGlyphs = [
     'center': True
   }
 ]
+# specialGlyphs = []
 
 universalSkipGlyphs = ['space']
 
 ignoreInCaltList = [g['name'] for g in specialGlyphs if g['ignoreInCalt']]
 specialGlyphsNameList = [g['name'] for g in specialGlyphs]
 
-sourceGlyphNames = normalGlyphs + map(lambda g: g['name'], specialGlyphs)
+sourceGlyphNames = normalGlyphs + list(map(lambda g: g['name'], specialGlyphs))
 sourceGlyphNamesFromGroups = [g for glyphGroup in glyphGroups for g in glyphGroup['glyphs']]
 
 sourceGlyphNamesIncludingGroups = sourceGlyphNames + sourceGlyphNamesFromGroups
@@ -269,12 +275,13 @@ class GenerateReverseAlts(object):
     self.run()
 
   def setMasterVars(self):
-    self.masterIds = map(lambda x: x.id, Glyphs.font.masters)
+    self.masterIds = list(map(lambda x: x.id, Glyphs.font.masters))
     self.reversedMasterIds = self.masterIds[:]
     self.reversedMasterIds.reverse()
 
-    self.axisVals = map(lambda x: x.axes[0], Glyphs.font.masters)
+    self.axisVals = list(map(lambda x: x.axes[0], Glyphs.font.masters))
     self.axisRange = (max(self.axisVals) - min(self.axisVals))
+    self.axisId = Glyphs.font.axes[0].axisId
 
   def duplicatesourceGlyph(self, sourceGlyphName):
     sourceGlyph = Glyphs.font.glyphs[sourceGlyphName]
@@ -318,7 +325,7 @@ class GenerateReverseAlts(object):
 
   def addComponentSpecialLayers(self, targetGlyph):
     for component in targetGlyph.layers[0].components:
-      glyphLayerNames = map(lambda x: x.name, targetGlyph.layers)
+      glyphLayerNames = list(map(lambda x: x.name, targetGlyph.layers))
       for layer in component.component.layers:
         if layer.isSpecialLayer:
           if layer.name not in glyphLayerNames:
@@ -326,6 +333,8 @@ class GenerateReverseAlts(object):
             newLayer = GSLayer()
             newLayer.name = layer.name
             newLayer.associatedMasterId = layer.associatedMasterId
+
+            newLayer.attributes['coordinates'] = {self.axisId: layer.name.replace('{', '').replace('}', '') }
             targetGlyph.layers.append(newLayer)
             targetGlyph.layers[newLayer.layerId].reinterpolate()
             
@@ -344,23 +353,24 @@ class GenerateReverseAlts(object):
         
         oldAxisVal = int(oldName[oldName.find("{")+1:oldName.find("}")])
         newAxisVal = int(self.axisRange - oldAxisVal + min(self.axisVals))
-        if newAxisVal == 167:
-          newAxisVal = 166
-        elif newAxisVal == 834:
-          newAxisVal = 833
+        # if newAxisVal == 167:
+        #   newAxisVal = 166
+        # elif newAxisVal == 834:
+        #   newAxisVal = 833
 
         newName = oldName.replace(str(oldAxisVal), str(newAxisVal))
 
         oldAssociatedMasterIndex = self.masterIds.index(layer.associatedMasterId)
 
         newAssociatedMasterIndex = len(self.masterIds) - oldAssociatedMasterIndex - 2
-        
+        print('dddd')
         layer.name = newName
+        layer.attributes['coordinates'] = {self.axisId: newAxisVal }
         layer.associatedMasterId = self.masterIds[newAssociatedMasterIndex]
 
   def getAltName(self, name):
     if name in specialGlyphsNameList:
-      specialGlyph = filter(lambda sg: sg['name'] == g, specialGlyphsNameList)[0]
+      specialGlyph = list(filter(lambda sg: sg['name'] == g, specialGlyphsNameList))[0]
       return specialGlyph['altname']
     else:
       return name + altSuffix
@@ -380,14 +390,14 @@ class GenerateReverseAlts(object):
     return normalGlyphs + altGlyphs
 
   def glyphsNotInGroup(self, glyphName):
-    matchingGroups = filter(lambda glyphGroup: glyphGroup['key'] == glyphName, glyphGroups)
+    matchingGroups = list(filter(lambda glyphGroup: glyphGroup['key'] == glyphName, glyphGroups))
     excludeList = []
     if len(matchingGroups) > 0:
       excludeList = [matchingGroups[0]['key']] + matchingGroups[0]['glyphs']
     else:
       excludeList = [glyphName]
     
-    return filter(lambda g: g not in excludeList, caltGlyphNamesIncludingGroups)
+    return list(filter(lambda g: g not in excludeList, caltGlyphNamesIncludingGroups))
 
   def skipClasses(self):
     code = ""
@@ -413,7 +423,8 @@ class GenerateReverseAlts(object):
     code += self.skipClasses()
     code += self.groupClasses()
     # put them in prefix
-    Glyphs.font.featurePrefixes['caltClasses'] = code
+    featurePrefix = next(fPfx for fPfx in Glyphs.font.featurePrefixes if fPfx.name == 'caltClasses')
+    featurePrefix.code = code
 
 
   def generateGlobalLookups(self):
@@ -439,8 +450,9 @@ class GenerateReverseAlts(object):
     for glyphName in caltGlyphNamesIncludingGroups:
       code += "  sub " + self.getAltName(glyphName) + " by " + glyphName + ";\n"
     code += "} calt2;\n"
-    Glyphs.font.featurePrefixes['caltLookups'] = code
 
+    featurePrefix = next(fPfx for fPfx in Glyphs.font.featurePrefixes if fPfx.name == 'caltLookups')
+    featurePrefix.code = code
   def updateFeatureCode(self):
     code = ""
     self.generateClasses()
@@ -456,12 +468,13 @@ class GenerateReverseAlts(object):
       code += self.featureDupLookup(i, True)
     code += "} swapR;\n"
 
-    Glyphs.font.features['calt'] = code
+    caltFeature = next(feat for feat in Glyphs.font.features if feat.name == 'calt')
+    caltFeature.code = code
     Glyphs.font.updateFeatures()
 
 
   def classOrBaseSub(self, glyphName, position):
-    matchingGroups = filter(lambda glyphGroup: glyphGroup['key'] == glyphName, glyphGroups)
+    matchingGroups = list(filter(lambda glyphGroup: glyphGroup['key'] == glyphName, glyphGroups))
     if len(matchingGroups) > 0:
       return "@" + glyphName + str(position)
     else:
@@ -486,7 +499,7 @@ class GenerateReverseAlts(object):
 
       for sourceGlyphName in glyphNameChunk:
         
-        skipCode = " ".join(map(lambda x: "@skip" + sourceGlyphName, range(skip)))
+        skipCode = " ".join(list(map(lambda x: "@skip" + sourceGlyphName, range(skip))))
         targetGlyph = self.classOrBaseSub(sourceGlyphName, 1)
         replacementLookup = 'calt1'
 

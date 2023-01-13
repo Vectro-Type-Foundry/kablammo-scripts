@@ -18,11 +18,13 @@ class SynchronizeNodeSelection(object):
     otherLayers = [l for l in g.layers if l != currentLayer]
 
     for layer in otherLayers:
-    	layer.clearSelection()
-    for path in range(len(currentLayer.paths)):
-    	for node in currentLayer.paths[path].nodes:
-    		if node.selected:
-    			for layer in otherLayers:
-    				if path < len(layer.paths):
-    					if node.index < layer.paths[path].nodes:
-    						layer.paths[path].nodes[node.index].selected = True
+      layer.clearSelection()
+    for pathIndex in range(len(currentLayer.paths)):
+      for node in currentLayer.paths[pathIndex].nodes:
+        if node.selected:
+          for layer in otherLayers:
+            if (len(layer.paths) >= len(currentLayer.paths)):
+              targetPath = layer.paths[pathIndex]
+              if (len(targetPath.nodes) >= len(currentLayer.paths[pathIndex].nodes)):
+                targetNode = targetPath.nodes[node.index]
+                targetNode.selected = True

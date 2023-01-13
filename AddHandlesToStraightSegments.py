@@ -22,7 +22,7 @@ class AddHandlesToStraightSegments(object):
             aPath = aNode.parent
             Index = aPath.nodes._owner.pyobjc_instanceMethods.nodes().index(aNode)
             PreviousNode = aPath.nodes[Index-1]
-            print aNode.type
+            print(aNode.type)
             
             newNode = GSNode()
             newNode.type = GSOFFCURVE
