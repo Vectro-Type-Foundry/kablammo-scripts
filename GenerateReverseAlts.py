@@ -16,7 +16,7 @@ normalGlyphs = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
 glyphGroups = [
   {
     'key': 'A',
-    'glyphs': ['Aacute', 'Abreve', 'Abreveacute', 'Abrevedotbelow', 'Abrevegrave', 'Abrevehookabove', 'Abrevetilde', 'Acircumflex', 'Acircumflexacute', 'Acircumflexdotbelow', 'Acircumflexgrave', 'Acircumflexhookabove', 'Acircumflextilde', 'Adblgrave', 'Adieresis', 'Adotbelow', 'Agrave', 'Ahookabove', 'Ainvertedbreve', 'Amacron', 'Aogonek', 'Aring', 'Aringacute', 'Atilde']
+    'glyphs': ['Aacute', 'Abreve', 'Abreveacute', 'Abrevedotbelow', 'Abrevegrave', 'Abrevehookabove', 'Abrevetilde', 'Acircumflex', 'Acircumflexacute', 'Acircumflexdotbelow', 'Acircumflexgrave', 'Acircumflexhookabove', 'Acircumflextilde', 'Adblgrave', 'Adieresis', 'Adotbelow', 'Agrave', 'Ahookabove', 'Ainvertedbreve', 'Amacron', 'Aogonek', 'Aring', 'Aringacute', 'Atilde', 'Acaron']
   },
   {
   	'key': 'C',
